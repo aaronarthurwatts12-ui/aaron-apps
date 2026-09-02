@@ -14,14 +14,24 @@ links. Closes with a concrete actions list.
 ## 1. Load config
 
 Read `mhr-market-intel/config/targets.yaml`. It defines: `sectors`
-(each with `sub_segments`), `competitors`, `target_accounts`, `job_titles`,
-`keywords.include`/`exclude`, `legislation.topics`/`sources`, and
-`content_strategy` (`mhr_content_sources`, `topic_clusters`).
+(each with `sub_segments`), `competitors`, `target_accounts_source`,
+`job_titles`, `keywords.include`/`exclude`, `legislation.topics`/`sources`,
+`content_strategy` (`mhr_content_sources`, `topic_clusters`), and
+`sales_cycle_timing` (bands + the start-engagement-by rule).
 
-If `target_accounts` still only contains the `EXAMPLE` placeholder, tell
-the user this run is illustrative only (their real account list hasn't
-been supplied yet) — still produce the digest, but label it clearly as a
-sample.
+Also read `mhr-market-intel/config/target_accounts.csv` (the file named by
+`target_accounts_source`) — ~1,576 real prospect accounts with a
+heuristic `sector_guess`, plus (mostly empty) `contract_end_date` and
+`employee_count_band` columns. This list is a floor, not a ceiling —
+don't limit findings to only named accounts in it; a competitor or
+legislation item relevant to a sector still belongs in the digest even
+when no specific account here is named in the source.
+
+For any row with both `contract_end_date` and `employee_count_band`
+filled in, apply the `sales_cycle_timing` rule to compute a
+start-engagement-by date. Surface accounts whose start-engagement-by
+date falls within the next 4-6 weeks as a "Flag to sales" action — that
+window is the actionable one, not every account with a future renewal.
 
 Default lookback window: **7 days** (last 14 if a category comes back
 thin — note when you've widened it).

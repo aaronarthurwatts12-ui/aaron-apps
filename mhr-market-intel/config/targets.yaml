@@ -57,14 +57,24 @@ competitors:
     blog_rss: null
     tier: "larger ERP — track at lower frequency unless public-sector-specific"
 
-# TODO (Aaron): populate with real named accounts, e.g.
-#   - name: "Birmingham City Council"
-#     sector: "Local government"
-#     priority: "high"
-target_accounts:
-  - name: "EXAMPLE — replace with real target accounts"
-    sector: "Local government"
-    priority: "medium"
+# Real prospect accounts, sourced from Aaron's CRM export
+# (config/target_accounts.csv — 1,576 rows). This list is a floor, not a
+# ceiling: analysis and suggestions should not be limited to only these
+# named accounts (per Aaron's brief) — treat competitor/legislation/
+# industry findings as relevant to the sector even when no specific
+# account here is named in the source.
+#
+# Sector tagging in the CSV (`sector_guess`) is heuristic — auto-classified
+# from account name keywords, not from CRM data, so ~25% are "Unclassified"
+# and some guesses will be wrong. If the Salesforce Account object has an
+# Industry/Sector picklist field, re-exporting with that field included
+# would be far more reliable than name-matching — worth doing before
+# trusting this for anything account-specific.
+#
+# `contract_end_date` and `employee_count_band` are empty pending Aaron
+# filling them in for known accounts — see `sales_cycle_timing` below for
+# why those two fields matter.
+target_accounts_source: "config/target_accounts.csv"
 
 # Roles to watch for: (a) role changes / new appointments at target
 # accounts, and (b) new job openings signalling a transformation
@@ -135,6 +145,25 @@ content_strategy:
     - "Non-profit: lean HR teams & compliance at scale"
     - "Cross-sector: AI in public sector HR/payroll"
     - "Cross-sector: pay & reward compliance"
+
+# Turns "contract ends in N months" into "start engagement by" — per
+# Aaron's brief on typical sales-cycle length by org size. Only computable
+# once an account in target_accounts.csv has both contract_end_date and
+# employee_count_band filled in; until then the digest should flag the
+# account as a renewal candidate without a computed engagement-start date.
+sales_cycle_timing:
+  bands:
+    - employee_count: "100-400"
+      typical_sales_cycle_months: "3-6"
+    - employee_count: "400-1000"
+      typical_sales_cycle_months: "6-12"
+    - employee_count: "1000+"
+      typical_sales_cycle_months: "12-24"
+      notes: "sometimes longer"
+  rule: >
+    start_engagement_by = contract_end_date minus the upper end of the
+    typical_sales_cycle_months for that account's employee_count_band
+    (i.e. plan for the longer end of the range, not the shorter one).
 
 delivery:
   cadence: "weekly"
