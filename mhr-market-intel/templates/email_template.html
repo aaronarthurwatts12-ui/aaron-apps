@@ -1,0 +1,128 @@
+<!--
+MHR Public Sector Pulse — branded email template.
+
+This is the shell + reusable block styles for the weekly digest email
+(see .claude/skills/mhr-digest/SKILL.md step 5, "email" delivery). Colors
+and fonts come from config/brand.yaml. Email HTML is table-based with
+inline styles throughout — do not switch to <div>/flex/grid layout or a
+<style> block for anything structural, it will break in Outlook/older
+clients. The Google Fonts <link> is progressive enhancement only; the
+inline font-family always lists an Arial/Helvetica fallback first-class,
+not an afterthought — most recipients will see the fallback.
+
+Content is NOT literally filled into this file via find/replace — each
+week's digest has a different number of competitor entries, legislation
+rows, job openings etc. Instead: keep the shell (header band, gradient
+accent bars, footer) and the reusable block patterns below exactly as
+styled, and repeat/omit the block patterns as that week's content
+requires. Section order matches digest_template.md: Competitor Activity,
+Content (Watch/Gaps/Get Ahead Of It), Legislation Watch, Industry News,
+People Moves, New Job Openings, then the Suggested Actions box last.
+-->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Public Sector Weekly Digest</title>
+<!--[if mso]>
+<style>table {border-collapse:collapse;} </style>
+<![endif]-->
+</head>
+<body style="margin:0; padding:0; background-color:#f0f0f0; font-family:'Noto Sans', Arial, Helvetica, sans-serif;">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet" type="text/css">
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f0f0f0;">
+<tr><td align="center" style="padding:24px 12px;">
+
+<table role="presentation" width="640" cellpadding="0" cellspacing="0" style="max-width:640px; width:100%; background-color:#ffffff;">
+
+  <!-- Header: MHR Red banner, logomark + title. Edit the subtitle date range each week. -->
+  <tr>
+    <td style="background-color:#c8102e; padding:24px 28px;">
+      <table role="presentation" cellpadding="0" cellspacing="0"><tr>
+        <td style="background-color:#ffffff; border-radius:6px; padding:8px 12px; vertical-align:middle;">
+          <span style="font-family:'Poppins',Arial,sans-serif; font-weight:700; font-size:16px; color:#c8102e; letter-spacing:.02em;">MHR</span>
+        </td>
+        <td style="width:14px;">&nbsp;</td>
+        <td style="vertical-align:middle;">
+          <span style="font-family:'Poppins',Arial,sans-serif; font-weight:700; font-size:23px; color:#ffffff;">Public Sector Pulse</span>
+        </td>
+      </tr></table>
+      <div style="margin-top:10px; font-family:'Noto Sans',Arial,sans-serif; font-size:13px; color:#ffd7de;">Week of {DATE_RANGE} &middot; MHR Public Sector Marketing Intelligence</div>
+    </td>
+  </tr>
+
+  <!-- 3-segment gradient-style accent bar (Light Red / Bright Pink / Electric Blue) -->
+  <tr>
+    <td style="padding:0; line-height:0; font-size:0;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
+        <td width="33%" style="background-color:#ff2a54; height:5px; line-height:5px; font-size:1px;">&nbsp;</td>
+        <td width="34%" style="background-color:#de1aa6; height:5px; line-height:5px; font-size:1px;">&nbsp;</td>
+        <td width="33%" style="background-color:#0000ff; height:5px; line-height:5px; font-size:1px;">&nbsp;</td>
+      </tr></table>
+    </td>
+  </tr>
+
+  <!-- Body: repeat these block patterns per section, in digest_template.md order -->
+  <tr><td style="padding:28px;">
+
+    <!-- SECTION HEADER pattern (one per category) -->
+    <p style="font-family:'Poppins',Arial,sans-serif; font-weight:700; font-size:18px; color:#0a2433; margin:26px 0 14px; padding-bottom:8px; border-bottom:2px solid #eee;">{Section name}</p>
+
+    <!-- ENTRY pattern (one per item within a section) -->
+    <p style="font-family:'Noto Sans',Arial,sans-serif; font-size:15px; font-weight:700; color:#0a2433; margin:0 0 4px;">{Headline}</p>
+    <p style="font-family:'Noto Sans',Arial,sans-serif; font-size:14px; color:#333333; line-height:1.5; margin:0 0 8px;">{Body text}</p>
+
+    <!-- SO-WHAT callout pattern (follows an entry) -->
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 18px;"><tr><td style="background-color:#fdecef; border-left:3px solid #c8102e; padding:8px 12px; font-family:'Noto Sans',Arial,sans-serif; font-size:13px; color:#333333;"><b style="color:#c8102e;">So what:</b> {why it matters}</td></tr></table>
+
+    <!-- NEUTRAL NOTE pattern (e.g. "thin this run" caveats) -->
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td style="background-color:#f5f5f5; border-left:3px solid #999999; padding:8px 12px; font-family:'Noto Sans',Arial,sans-serif; font-size:13px; color:#555555;"><b>{Note title}</b> &mdash; {note text}</td></tr></table>
+
+    <!-- DATA TABLE pattern (used for Legislation Watch and New Job Openings) -->
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e5e5e5; font-family:'Noto Sans',Arial,sans-serif; font-size:12.5px;">
+      <tr style="background-color:#0a2433;"><td style="padding:8px 10px; color:#ffffff; font-weight:700;">{Col 1}</td><td style="padding:8px 10px; color:#ffffff; font-weight:700;">{Col 2}</td><td style="padding:8px 10px; color:#ffffff; font-weight:700;">{Col 3}</td></tr>
+      <!-- alternate row background #ffffff / #fafafa for readability -->
+      <tr><td style="padding:8px 10px; border-top:1px solid #eee; font-weight:700; color:#0a2433; vertical-align:top;">{value}</td><td style="padding:8px 10px; border-top:1px solid #eee; color:#333; vertical-align:top;">{value}</td><td style="padding:8px 10px; border-top:1px solid #eee; color:#333; vertical-align:top;">{value}</td></tr>
+    </table>
+
+  </td></tr>
+
+  <!-- SUGGESTED ACTIONS box — always last, Corporate Blue background -->
+  <tr><td style="padding:0 28px 28px;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#0a2433; border-radius:6px;">
+      <tr><td style="padding:22px 24px;">
+        <p style="font-family:'Noto Sans',Arial,sans-serif; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:#ff8fa3; margin:0 0 6px;">Suggested actions for this week</p>
+        <p style="font-family:'Poppins',Arial,sans-serif; font-weight:700; font-size:17px; color:#ffffff; margin:0 0 16px;">{N} moves worth making</p>
+
+        <!-- ACTION ITEM pattern — repeat per action, lane label from: Flag to sales / Content / Competitive response / Compliance/enablement -->
+        <p style="font-family:'Noto Sans',Arial,sans-serif; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:#ff8fa3; margin:0 0 3px;">{Lane}</p>
+        <p style="font-family:'Noto Sans',Arial,sans-serif; font-size:13.5px; color:#e8ecea; line-height:1.5; margin:0 0 14px; padding-bottom:14px; border-bottom:1px solid #23413b;"><b style="color:#ffffff;">{Action headline.}</b> {Action detail.}</p>
+        <!-- last action item omits the bottom border/margin -->
+
+      </td></tr>
+    </table>
+  </td></tr>
+
+  <!-- 3-segment gradient-style footer bar (Bright Pink / Light Violet / Electric Violet) -->
+  <tr>
+    <td style="padding:0; line-height:0; font-size:0;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
+        <td width="33%" style="background-color:#de1aa6; height:5px; line-height:5px; font-size:1px;">&nbsp;</td>
+        <td width="34%" style="background-color:#a83dff; height:5px; line-height:5px; font-size:1px;">&nbsp;</td>
+        <td width="33%" style="background-color:#7a0ff9; height:5px; line-height:5px; font-size:1px;">&nbsp;</td>
+      </tr></table>
+    </td>
+  </tr>
+
+  <tr><td style="padding:16px 28px 24px; background-color:#fafafa;">
+    <p style="font-family:'Noto Sans',Arial,sans-serif; font-size:11px; color:#999999; margin:0;">Lookback window: {N} days ({note if widened}) &middot; Sources: config/targets.yaml, target_accounts.csv ({N} accounts) &middot; Generated automatically via MHR's Public Sector Pulse pipeline.</p>
+  </td></tr>
+
+</table>
+</td></tr>
+</table>
+
+</body>
+</html>

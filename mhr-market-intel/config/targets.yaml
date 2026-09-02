@@ -198,4 +198,10 @@ sales_cycle_timing:
 
 delivery:
   cadence: "weekly"
-  format: "artifact" # "artifact" (styled report) or "markdown" (plain file in reports/)
+  formats: ["artifact", "email"] # any of: "artifact" (styled report), "markdown" (plain file in reports/), "email"
+  email:
+    recipient: "aaron.watts@mhr.co.uk"
+    subject_template: "Public Sector Weekly Digest {date}" # {date} = the digest's run date, e.g. "2 September 2026"
+    send_via: "Gmail connector (mcp__Gmail__send_message)"
+    template: "mhr-market-intel/templates/email_template.html"
+    brand: "mhr-market-intel/config/brand.yaml"

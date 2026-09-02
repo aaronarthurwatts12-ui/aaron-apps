@@ -140,11 +140,33 @@ week's findings support them:
 
 ## 5. Deliver
 
-Check `delivery.format` in the config:
-- `artifact` (default): load the `artifact-design` skill, then publish
-  the digest as a styled HTML Artifact (title it "MHR Market Intel — Week
-  of <date>"). Favicon: 📡.
+Check `delivery.formats` in the config — do all of the ones listed:
+- `artifact`: load the `artifact-design` skill, then publish the digest
+  as a styled HTML Artifact titled "Public Sector Pulse — Week of <date
+  range>". Favicon: 📡. Design system: paper/teal/warm-flag palette,
+  Fraunces/Public Sans/IBM Plex Mono type, sector chips for
+  Education/Local & Central Gov/Charity & Housing/Emergency &
+  Military/Healthcare — match prior issues rather than reinventing it
+  each week.
 - `markdown`: write to `mhr-market-intel/reports/YYYY-MM-DD-digest.md`.
+- `email`: read `delivery.email` for the recipient, subject template, and
+  the `template`/`brand` file paths (`mhr-market-intel/templates
+  /email_template.html`, `mhr-market-intel/config/brand.yaml`). Build the
+  HTML email by reusing that template's shell (header band, gradient
+  accent bars, footer) and repeating its block patterns (section header,
+  entry, so-what callout, neutral note, data table, action item) for
+  that week's actual content — do not literally find/replace into the
+  template file, its placeholder text is illustrative of the pattern,
+  not real markup to fill in. Keep every style inline (no `<style>`
+  block for layout) since this renders in email clients. Send via
+  `mcp__Gmail__send_message` (load its schema via ToolSearch if not
+  already available) with `to` = `delivery.email.recipient`, `subject` =
+  the subject template with `{date}` filled in (e.g. "Public Sector
+  Weekly Digest 7 September 2026"), `htmlBody` = the branded HTML, and
+  `body` = a short plain-text fallback summarizing the top findings and
+  the Suggested Actions list. If the Gmail connector isn't available in
+  the firing session, say so clearly rather than silently skipping the
+  email.
 
 Always tell the user which lookback window was used and which categories
 came back thin, so they know where the config needs more input (more
