@@ -1,60 +1,69 @@
 # MHR Market Intelligence — target configuration
 #
 # This file drives the weekly digest (see .claude/skills/mhr-digest/SKILL.md).
-# Everything marked "TODO" or "EXAMPLE" below is a placeholder — replace it
-# with your real lists. Nothing else needs to change; the skill reads
-# straight from this file.
+# Sourced from Aaron's competitor/industry/job-role spreadsheet. Still
+# outstanding: named target accounts (TODO below) — without these, people
+# moves and account-level signals stay generic rather than targeted.
 
 company:
   name: "MHR"
   product: "iTrent (HR & Payroll SaaS)"
 
-# The four public-sector verticals in scope, per your brief. "Government"
-# is local-government priority, but central government/civil service can
-# stay in scope at lower weight — flag if you want it dropped entirely.
+# Core sectors and their sub-segments, as supplied. "Local government"
+# includes central government/the four home nations' authorities as a
+# secondary sub-segment — flag if that split isn't what you intended.
 sectors:
   - name: "Education"
-    notes: "Universities, colleges, multi-academy trusts (MATs)"
-  - name: "Government"
-    notes: "Local government is priority; central gov/civil service secondary"
+    sub_segments:
+      - "Higher education"
+      - "Multi-academy trusts"
+      - "Further education (colleges)"
+      - "Independent schools"
+  - name: "Local government"
+    sub_segments:
+      - "Central government"
+      - "English / Scottish / NI / Welsh authorities"
+  - name: "Emergency services"
+    sub_segments:
+      - "Ambulance"
+      - "Police"
+      - "Military"
+      - "Fire department"
   - name: "Non-profit"
-    notes: "Charities, housing associations, membership bodies"
-  - name: "Emergency Services"
-    notes: "Police, fire & rescue, ambulance trusts"
+    sub_segments:
+      - "Charities"
+      - "Religious institutions"
+      - "Associations and memberships"
 
-# TODO (Aaron): confirm/replace. These are well-known UK public-sector
-# HR/Payroll SaaS players, included only as a starting point so the
-# pipeline has something to run against.
 competitors:
   - name: "Zellis"
     website: "https://www.zellis.com"
     blog_rss: null # fill in if/when a feed is found
+  - name: "Unit4"
+    website: "https://www.unit4.com"
+    blog_rss: null
   - name: "Access Group (OneAdvanced)"
     website: "https://www.theaccessgroup.com"
     blog_rss: null
-  - name: "Civica"
-    website: "https://www.civica.com"
+  - name: "TechnologyOne (TechOne)"
+    website: "https://www.technologyonecorp.com"
     blog_rss: null
-  - name: "IRIS Software Group"
-    website: "https://www.iris.co.uk"
-    blog_rss: null
-  - name: "SAP SuccessFactors"
+  - name: "SAP"
     website: "https://www.sap.com/products/hcm.html"
     blog_rss: null
-  - name: "Oracle HCM"
+    tier: "larger ERP — track at lower frequency unless public-sector-specific"
+  - name: "Oracle"
     website: "https://www.oracle.com/uk/human-capital-management/"
     blog_rss: null
-  - name: "Workday"
-    website: "https://www.workday.com"
-    blog_rss: null
+    tier: "larger ERP — track at lower frequency unless public-sector-specific"
 
 # TODO (Aaron): populate with real named accounts, e.g.
 #   - name: "Birmingham City Council"
-#     sector: "Government"
+#     sector: "Local government"
 #     priority: "high"
 target_accounts:
   - name: "EXAMPLE — replace with real target accounts"
-    sector: "Government"
+    sector: "Local government"
     priority: "medium"
 
 # Roles to watch for: (a) role changes / new appointments at target
@@ -62,13 +71,15 @@ target_accounts:
 # programme, HRIS/payroll procurement, or budget for change.
 job_titles:
   - "HR Director"
-  - "Director of People"
-  - "Chief People Officer"
-  - "Head of HR Transformation"
-  - "Head of People Services"
-  - "Senior Transformation Lead"
-  - "Head of Organisational Development"
+  - "Head of Digital Transformation"
   - "Head of Payroll"
+  - "Chief Information Officer"
+  - "Head of People"
+  - "Chief Technology Officer"
+  # Broad catch-all per Aaron's brief — any transformation-flavoured title,
+  # not just the ones listed above (e.g. "Head of Transformation",
+  # "Director of Digital & Change", "Transformation Programme Lead").
+  - "* Digital Transformation (any title)"
 
 # Used to keep "industry news" relevant instead of generic HR-tech noise.
 keywords:
@@ -84,6 +95,46 @@ keywords:
   exclude:
     - "recruitment agency"
     - "staffing agency"
+
+# Legislation & regulatory changes affecting HR/payroll practice in the
+# public sector. Tracked and flagged weekly as their own digest section —
+# separate from general "industry news" because these are compliance-driving,
+# not just directional.
+legislation:
+  topics:
+    - "National Minimum/Living Wage rate changes"
+    - "Employment Rights Bill / UK employment law reform"
+    - "IR35 / off-payroll working rules"
+    - "Pensions auto-enrolment threshold and contribution changes"
+    - "Public sector pay awards (NHS Agenda for Change, Local Government/NJC, Teachers' Pay, Police/Fire pay review bodies, Armed Forces Pay Review Body)"
+    - "Statutory sick pay, family leave and flexible working law changes"
+    - "Right to work / immigration compliance changes affecting payroll"
+    - "HMRC payroll reporting changes (RTI, tax codes, thresholds)"
+    - "Procurement Act 2023 and public sector software procurement rules"
+  sources:
+    - "legislation.gov.uk"
+    - "gov.uk (HMRC, DLUHC/MHCLG, DfE, Home Office, Cabinet Office)"
+    - "ACAS"
+    - "CIPD"
+    - "Local Government Association (LGA) pay circulars / NJC"
+    - "NHS Employers"
+
+# Content strategy inputs — used to map competitor/industry content against
+# what MHR has actually published, surface gaps, and suggest topics.
+content_strategy:
+  # TODO (Aaron): list MHR's existing content hubs/feeds so gap analysis can
+  # check what's already been published rather than assuming a gap exists.
+  mhr_content_sources:
+    - "EXAMPLE — e.g. https://www.mhrglobal.com/uk/en/resources/blog"
+  # Topic clusters content gets mapped against — one per sector plus a few
+  # cross-cutting themes. Extend as real topics emerge from digests.
+  topic_clusters:
+    - "Education: MAT growth & HR/payroll consolidation"
+    - "Local government: reorganisation (LGR) & shared services"
+    - "Emergency services: workforce scheduling & wellbeing"
+    - "Non-profit: lean HR teams & compliance at scale"
+    - "Cross-sector: AI in public sector HR/payroll"
+    - "Cross-sector: pay & reward compliance"
 
 delivery:
   cadence: "weekly"

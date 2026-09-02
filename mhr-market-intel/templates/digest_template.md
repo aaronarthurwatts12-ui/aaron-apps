@@ -1,18 +1,29 @@
 # MHR Market Intel — Week of {date range}
 
-_Sectors: Education · Government (local priority) · Non-profit · Emergency Services_
-
-## This Week's Actions
-- {2-4 specific, concrete actions tied to items below — not generic advice}
+_Sectors: Education · Local Government (priority) · Non-profit · Emergency Services_
 
 ## Competitor Activity
 ### {Competitor name}
 - {What happened} — [source]({url})
   _So what:_ {why this matters for MHR's positioning/sales/marketing}
 
-## Content Watch
-- {Competitor} published {content type} on {topic} — [source]({url})
+## Content
+### Content Watch
+- {Competitor/source} published {content type} on {topic} — [source]({url})
   _So what:_ {gap it fills, angle to counter, or idea to borrow}
+
+### Gaps vs. MHR
+- {Topic cluster}: {what's being published elsewhere that MHR doesn't have}
+  _Suggested topic:_ {specific piece MHR could write}
+
+### Get Ahead Of It
+- {Emerging theme spotted across multiple sources this run}
+  _Suggested topic:_ {content that would position MHR early}
+
+## Legislation Watch
+- {Change/update} — [source]({url})
+  _So what:_ {compliance or budget impact for public-sector HR/payroll}
+  _(If nothing material this week, say so explicitly rather than omitting the section.)_
 
 ## Industry News
 - {Headline/summary} — [source]({url})
@@ -27,4 +38,11 @@ _Sectors: Education · Government (local priority) · Non-profit · Emergency Se
   _So what:_ {signal it represents — budget, transformation appetite, timing}
 
 ---
+
+## Suggested Actions For This Week
+- **Content:** {consider creating X — tied to a specific Content item above}
+- **Flag to sales:** {specific job opening/role change and which account team should know}
+- **Competitive response:** {something to counter or match from Competitor Activity}
+- **Compliance/enablement:** {anything from Legislation Watch worth briefing sales/CS on}
+
 _Categories that came back thin this run, and what config input would help: {note}_
