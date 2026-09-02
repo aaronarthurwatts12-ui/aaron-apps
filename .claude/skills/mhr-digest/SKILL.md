@@ -73,6 +73,20 @@ distinct jobs, not just link aggregation:
      content with an actual URL was found for it that run; say nothing
      for a competitor with no fresh content rather than padding the
      section.
+     **Currency check:** a page ranking in search isn't necessarily new —
+     blogs and evergreen resource pages stay indexed for years. Before
+     presenting something as "content watch" (implicitly this week's
+     activity), check for a visible publish/updated date (on the page
+     itself, in the search snippet, or via `WebFetch` if neither shows
+     one) and confirm it falls within roughly the last 4-6 weeks. An
+     older but genuinely relevant page can still be worth flagging — but
+     say so explicitly (e.g. "an existing page, not new this week")
+     rather than implying it's fresh. In practice `WebFetch` often can't
+     reach vendor domains directly (Zellis, Civica, Unit4, NEC and
+     similar have all been blocked by this environment's egress proxy in
+     past runs) — when a date can't be confirmed by any method, phrase
+     the item as "currently live content" rather than "published this
+     week," so the digest never overstates freshness it hasn't verified.
   2. *Gap analysis*: for each `content_strategy.topic_clusters` entry,
      check what's been found in (1) against `content_strategy
      .mhr_content_sources` (fetch those pages/feeds if provided) —
@@ -116,6 +130,24 @@ directly for the configured job titles: LGjobs (local government),
 NHS Jobs, Civil Service Jobs (gov.uk), charity job boards, and each
 target account's own careers page. A posting for one of the configured
 titles is itself a signal (budget + appetite for change).
+
+**Currency check — mandatory before including any job listing.** A
+search result's presence doesn't mean the vacancy is still open; job
+board pages stay indexed and searchable long after they close. For
+every candidate listing:
+- Note the closing date if the listing states one, and drop it if that
+  date is before the digest's run date (today). A "starts"/"started"
+  date instead of a closing date means the role has already been
+  filled — that's a people-move signal at best, never a job opening.
+- If a search snippet doesn't show a closing date, `WebFetch` the
+  listing page itself and check for it or for explicit "this vacancy
+  has closed"/"applications no longer accepted" text before including
+  it. If the page is unreachable and status can't be confirmed, leave
+  the listing out rather than guess it's still open.
+- Only search results that are themselves fresh (posted within roughly
+  the last 4-6 weeks, or with an explicit future closing date) belong
+  in this section — don't reuse a listing from a prior week's run
+  without re-checking it, since it may have closed since.
 
 ## 3. Filter for relevance
 
