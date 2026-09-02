@@ -54,10 +54,10 @@ Or ask in plain language ("run the MHR market intel digest").
   standard contract length to project forward from instead.
 - MHR's own content hub/blog URL(s) so the content-gap analysis compares
   against what's actually been published, not an assumption.
-- Confirmation the competitor list is complete — Sage, Northgate,
-  Frontier, IRIS, Civica and Cintra were added because they show up as
-  the *incumbent* supplier at real target accounts (see below); TechOne
-  hasn't appeared as an incumbent anywhere in the account data yet.
+- Confirmation the competitor list is complete — Sage, Frontier, IRIS,
+  Civica and Cintra were added because they show up as the *incumbent*
+  supplier at real target accounts (see below); TechOne hasn't appeared
+  as an incumbent anywhere in the account data yet.
 - Any preferred trade press / sources to prioritize or exclude.
 
 ## Target accounts
@@ -73,10 +73,12 @@ start-engagement-by date** (overdue — flag immediately) and **25 more
 enter their engagement window in the next 6 months**.
 
 The current-supplier field is also a live competitive-intelligence
-signal in its own right: Zellis (29 accounts), Access Group (24), Oracle
-(17), Northgate (15), Sage (15), Frontier (14), IRIS (13), SAP (12), and
-Core International (12) are the largest incumbents across these 315
-accounts.
+signal in its own right: Zellis (44 accounts — includes 15 originally
+recorded as "Northgate," which is Zellis under its pre-2019 name, not a
+separate competitor; see `notes` on the Zellis entry in
+`config/targets.yaml`), Access Group (24), Oracle (17), Sage (15),
+Frontier (14), IRIS (13), SAP (12), and Core International (12) are the
+largest incumbents across these 315 accounts.
 
 `config/target_accounts_education_prospects.csv` is a larger (1,576-row),
 Education-only, mostly-undated pool from an earlier export — kept as a
@@ -84,6 +86,26 @@ broader top-of-funnel list for Education content/people-moves targeting,
 not for renewal-timing actions. Both lists are a floor, not a ceiling:
 the digest's competitor/legislation/industry findings apply to a sector
 even when no specific account is named in the source, per your brief.
+
+## Content watch: sitemap diffing
+
+`scripts/sitemap_diff.py` fetches each competitor's `sitemap_url` (set
+in `config/targets.yaml`), compares it against last week's snapshot in
+`data/sitemap_snapshots/`, and reports pages added, removed, or updated
+— a genuine "is this actually new" signal instead of guessing from
+search-result freshness. Confirmed working (2 Sep 2026) for Zellis, IRIS,
+and Access Group; Unit4 and Civica are both behind a Cloudflare
+JS-challenge and can't be fetched this way (by design — not something
+this pipeline tries to route around) and fall back to search-based
+content watch. SAP, Oracle, Sage, Frontier, TechOne and Cintra don't
+have a confirmed `sitemap_url` yet — untested, not necessarily blocked.
+
+This only works because the environment's network policy was opened to
+general outbound access on 2 Sep 2026 — before that, all external
+fetches (`WebFetch` and Bash `curl` alike) were blocked entirely by a
+blanket egress policy, not a domain-specific one. If sitemap fetches
+start failing across the board again, check that policy before assuming
+something else broke.
 
 ## Known limitations (v1)
 
@@ -109,7 +131,7 @@ even when no specific account is named in the source, per your brief.
 
 ## Automating the cadence
 
-Once the config is populated and the format is approved, this can run on
-a schedule (e.g. a weekly Routine that fires `/mhr-digest` into a session)
-so the digest lands automatically rather than being run by hand. Ask for
-this to be set up once you're happy with the output.
+Already running: a weekly Routine fires `/mhr-digest` every Monday
+06:00 UTC into this session (self-bound, so it keeps the Gmail connector
+access set up here), publishing the artifact and emailing the branded
+digest to `delivery.email.recipient`.

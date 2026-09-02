@@ -36,22 +36,39 @@ competitors:
   - name: "Zellis"
     website: "https://www.zellis.com"
     blog_rss: null # fill in if/when a feed is found
+    sitemap_url: "https://www.zellis.com/sitemap.xml" # confirmed fetchable
+    notes: >
+      Formerly Northgate / NorthgateArinso / NGA Human Resources UK &
+      Ireland — rebranded to Zellis in Jan 2019 after a Feb 2018 spinout.
+      Product lines include ResourceLink, Moorepay and Benefex. CRM
+      records showing "Northgate" as current_supplier are this company
+      under its old name, not a separate competitor — 15 target accounts
+      were reclassified from "Northgate" to "Zellis" in
+      target_accounts.csv on this basis (Aaron confirmed, 2 Sep 2026).
+      Do not confuse with "Northgate Public Services", an unrelated
+      company acquired by NEC Software Solutions (necsws.com) — that
+      Northgate never had a foothold in this dataset.
   - name: "Unit4"
     website: "https://www.unit4.com"
     blog_rss: null
+    sitemap_url: null # Cloudflare JS challenge on this domain — WebSearch content watch only
   - name: "Access Group (OneAdvanced)"
     website: "https://www.theaccessgroup.com"
     blog_rss: null
+    sitemap_url: "https://www.theaccessgroup.com/sitemap.xml" # confirmed fetchable
   - name: "TechnologyOne (TechOne)"
     website: "https://www.technologyonecorp.com"
     blog_rss: null
+    sitemap_url: null # not yet confirmed — untested
   - name: "SAP"
     website: "https://www.sap.com/products/hcm.html"
     blog_rss: null
+    sitemap_url: null
     tier: "larger ERP — track at lower frequency unless public-sector-specific"
   - name: "Oracle"
     website: "https://www.oracle.com/uk/human-capital-management/"
     blog_rss: null
+    sitemap_url: null
     tier: "larger ERP — track at lower frequency unless public-sector-specific"
   # Added from target_accounts.csv's current_supplier field — these show
   # up as the incumbent at more target accounts than some competitors
@@ -60,26 +77,27 @@ competitors:
   - name: "Sage"
     website: "https://www.sage.com"
     blog_rss: null
+    sitemap_url: null # not yet confirmed — untested
     tier: "found as incumbent supplier in target account data"
-  - name: "Northgate"
-    website: null
-    blog_rss: null
-    tier: "found as incumbent supplier in target account data — legacy NGA/Northgate Arinso naming, may overlap with Zellis lineage"
   - name: "Frontier"
     website: null
     blog_rss: null
+    sitemap_url: null
     tier: "found as incumbent supplier in target account data (Chris21/PAMS products)"
   - name: "IRIS Software Group"
     website: "https://www.iris.co.uk"
     blog_rss: null
+    sitemap_url: "https://www.iris.co.uk/sitemap.xml" # confirmed fetchable
     tier: "found as incumbent supplier in target account data"
   - name: "Civica"
     website: "https://www.civica.com"
     blog_rss: null
+    sitemap_url: null # Cloudflare JS challenge on this domain — WebSearch content watch only
     tier: "found as incumbent supplier in target account data"
   - name: "Cintra"
     website: "https://www.cintra.co.uk"
     blog_rss: null
+    sitemap_url: null # not yet confirmed — untested
     tier: "found as incumbent supplier in target account data"
 
 # Real target accounts with known renewal dates — the primary driver of

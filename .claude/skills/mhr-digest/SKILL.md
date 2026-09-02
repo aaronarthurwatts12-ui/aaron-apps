@@ -64,29 +64,48 @@ needs more detail to summarize accurately.
 
 **B. Content — watch, gaps, and suggestions.** This section does three
 distinct jobs, not just link aggregation:
-  1. *Content watch*: what competitors and industry sources have actually
-     published recently (`"<competitor>" blog OR case study OR webinar`,
-     plus general searches per sector/topic cluster). Run this search for
-     every configured competitor, not just the one or two with the most
-     obvious hits — a single-competitor content watch under-represents
-     the field. Include a competitor only when a real, distinct piece of
-     content with an actual URL was found for it that run; say nothing
-     for a competitor with no fresh content rather than padding the
-     section.
-     **Currency check:** a page ranking in search isn't necessarily new —
-     blogs and evergreen resource pages stay indexed for years. Before
-     presenting something as "content watch" (implicitly this week's
-     activity), check for a visible publish/updated date (on the page
-     itself, in the search snippet, or via `WebFetch` if neither shows
-     one) and confirm it falls within roughly the last 4-6 weeks. An
-     older but genuinely relevant page can still be worth flagging — but
-     say so explicitly (e.g. "an existing page, not new this week")
-     rather than implying it's fresh. In practice `WebFetch` often can't
-     reach vendor domains directly (Zellis, Civica, Unit4, NEC and
-     similar have all been blocked by this environment's egress proxy in
-     past runs) — when a date can't be confirmed by any method, phrase
-     the item as "currently live content" rather than "published this
-     week," so the digest never overstates freshness it hasn't verified.
+  1. *Content watch* — run the sitemap diff FIRST, then fill gaps with
+     search:
+     - **Primary source: `python3 scripts/sitemap_diff.py --json`** (run
+       from the `mhr-market-intel/` directory; needs `pyyaml` — `pip
+       install pyyaml` if the import fails). It fetches every
+       competitor's `sitemap_url` from `config/targets.yaml`, diffs the
+       URL set against last week's stored snapshot in
+       `data/sitemap_snapshots/`, and overwrites the snapshot either
+       way. Its `added` URLs are genuinely new pages — no currency
+       guesswork needed, unlike search results. `status:
+       "first_snapshot"` means there's nothing to diff yet this run
+       (report the page count, not fabricated "new" content). A
+       competitor with `status: "no_sitemap_configured"`,
+       `"fetch_failed"`, or `"empty_or_blocked"` has no working sitemap
+       (commonly a Cloudflare/Akamai bot challenge — confirmed for
+       Civica and Unit4 as of Sep 2026; don't try to work around a real
+       bot-protection challenge, that's evading a deliberate access
+       control) — fall back to search for that competitor only.
+     - **Fallback (competitors without a working sitemap, or to catch
+       non-blog content the sitemap wouldn't distinguish as "new," like
+       an updated existing page)**: `"<competitor>" blog OR case study
+       OR webinar`, plus general searches per sector/topic cluster. Run
+       this for every competitor lacking sitemap coverage, not just the
+       one or two with the most obvious hits. Include a competitor only
+       when a real, distinct piece of content with an actual URL was
+       found for it that run; say nothing for a competitor with no fresh
+       content rather than padding the section.
+       **Currency check:** a page ranking in search isn't necessarily
+       new — blogs and evergreen resource pages stay indexed for years.
+       Before presenting something as "content watch" (implicitly this
+       week's activity), check for a visible publish/updated date (on
+       the page itself, in the search snippet, or via `WebFetch`/`curl`
+       if neither shows one) and confirm it falls within roughly the
+       last 4-6 weeks. An older but genuinely relevant page can still be
+       worth flagging — but say so explicitly (e.g. "an existing page,
+       not new this week") rather than implying it's fresh. This
+       environment's network policy was opened to general outbound
+       access on 2 Sep 2026 (previously all of `WebFetch` and Bash
+       `curl` were blocked for external domains) — if fetches are
+       failing again, that policy may have reverted; fall back to the
+       "currently live content" phrasing from before rather than
+       assuming a domain-specific block.
   2. *Gap analysis*: for each `content_strategy.topic_clusters` entry,
      check what's been found in (1) against `content_strategy
      .mhr_content_sources` (fetch those pages/feeds if provided) —
