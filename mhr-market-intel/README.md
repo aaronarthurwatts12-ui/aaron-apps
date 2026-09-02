@@ -58,6 +58,12 @@ Or ask in plain language ("run the MHR market intel digest").
   Civica and Cintra were added because they show up as the *incumbent*
   supplier at real target accounts (see below); TechOne hasn't appeared
   as an incumbent anywhere in the account data yet.
+- **The real MHR logo file, if the email should carry it.** A pasted
+  image in the chat isn't readable as a file in this environment — only
+  an actual upload/attachment is (drag-and-drop or the attach button,
+  not paste). The email currently carries the brand through text only
+  (an "MHR" label above the title) rather than a recreated approximation
+  of the logo — see `config/brand.yaml`.
 - Any preferred trade press / sources to prioritize or exclude.
 
 ## Target accounts

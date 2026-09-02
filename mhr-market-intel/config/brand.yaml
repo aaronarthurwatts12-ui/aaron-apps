@@ -1,8 +1,14 @@
 # MHR brand tokens — extracted from the MHR Brand Guide Sheet Aaron supplied.
-# Used to "loosely brand" the weekly digest email. Not a full brand system
-# (no logo image asset is stored here — the email recreates the logomark as
-# a white rounded box with red "MHR" text, since embedding the real logo
-# image would need it hosted somewhere reachable by email clients).
+# Used to "loosely brand" the weekly digest email. Not a full brand system.
+#
+# No logo image: Aaron asked for the real MHR logo (a red rounded-square
+# mark with a white "MHR" wordmark) rather than a recreated approximation,
+# and pasted-image attachments don't reach this environment as a usable
+# file (only proper file uploads do — see mhr-market-intel/README.md).
+# Rather than ship an approximation, the header carries the brand through
+# text only: a small "MHR" eyebrow label above the "Public Sector Pulse"
+# title, on the MHR Red banner. Revisit once the real logo file is
+# supplied as a genuine upload.
 
 colors:
   mhr_red: "#c8102e"        # primary brand color — banners, "so what" accents
