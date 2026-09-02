@@ -133,22 +133,34 @@ public-sector-relevant trade press (LocalGov, Public Sector Executive,
 UKAuthority, Civil Service World, Personnel Today, HR magazine) and
 gov.uk/target-account press releases over generic HR-tech news.
 
-**E. People moves** — for each job title in the config (including the
+**E. People moves** — not limited to named `target_accounts.csv` rows:
+per `config/targets.yaml`'s `icp` block, any organisation in one of the
+seven sectors with roughly `icp.min_employees`+ employees is in scope,
+named account or not (a district council or small trust rarely clears
+that bar; a county council, NHS trust, police force or multi-academy
+trust usually does). For each job title in the config (including the
 open-ended "any digital transformation title" entry — read it broadly),
-combine with sector/account terms, e.g. `"appointed" "HR Director"
-council 2026`. Note: there is no LinkedIn API access here — personal
-OAuth only exposes the authenticated user's own profile, not other
-people's job changes, and third-party scraping violates LinkedIn's ToS.
-This category relies on what search engines surface (press releases,
-council/trust news pages, publicly indexed posts) and will always be the
-thinnest without either real named target accounts to search against or
-a compliant B2B data provider (see README "Known limitations").
+combine with sector terms as well as account terms, e.g. `"appointed"
+"HR Director" council 2026` alongside `"appointed" "HR Director" NHS
+trust 2026`. Note: there is no LinkedIn API access here — personal OAuth
+only exposes the authenticated user's own profile, not other people's
+job changes, and third-party scraping violates LinkedIn's ToS. This
+category relies on what search engines surface (press releases,
+council/trust news pages, publicly indexed posts) and will always be
+thin without a compliant B2B data provider (see README "Known
+limitations") — but broadening past the named list should still surface
+more than searching only 315 accounts by name.
 
-**F. New job openings** — search official public-sector job boards
-directly for the configured job titles: LGjobs (local government),
-NHS Jobs, Civil Service Jobs (gov.uk), charity job boards, and each
-target account's own careers page. A posting for one of the configured
-titles is itself a signal (budget + appetite for change).
+**F. New job openings** — same broadened scope as People Moves: search
+official public-sector job boards directly for the configured job
+titles across LGjobs (local government), NHS Jobs, Civil Service Jobs
+(gov.uk), charity job boards, and sector-wide searches (e.g. `"Head of
+Payroll" NHS trust`) — not just each named target account's own careers
+page. A posting for one of the configured titles at any ICP-fitting org
+is itself a signal (budget + appetite for change), whether or not that
+org is on the named list — name the organisation plainly in the listing
+(no separate note on named-vs-not; the org name is enough for sales to
+check against the CRM themselves).
 
 **Currency check — mandatory before including any job listing.** A
 search result's presence doesn't mean the vacancy is still open; job
@@ -187,6 +199,22 @@ domain name as text), and a one-line "so what for MHR" note. This
 applies in both delivery formats below — the artifact's prior issues
 under-did this (source domain shown as plain text, not a link); don't
 repeat that.
+
+Don't include any commentary about the digest's own production in the
+digest itself — no "corrected this run," "N listings removed since last
+issue," "previously reported as X," "thin this run," "widened this run
+to...," notes on why a section is short, or caveats about this
+environment's network/fetch access. None of that is something happening
+in the market this week; it describes the process, not the findings, and
+doesn't belong in front of the reader in any form — not as a standalone
+note, not folded inline into an entry's body or "so what." Apply
+currency checks, drop stale items, fix data errors, and widen or narrow
+search scope silently; report each item on its own merits as if it were
+the only version of the digest that ever existed. If something about
+this run genuinely needs to reach Aaron (a real data correction, a
+section that came back thin, a network/access problem), say it in your
+chat reply after generating the digest — never inside the digest content
+itself.
 
 The closing actions section is the payoff — pull it from specific items
 above, not generic advice. Cover at least these action types where the

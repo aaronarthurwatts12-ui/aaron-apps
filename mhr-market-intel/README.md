@@ -106,15 +106,25 @@ this pipeline tries to route around) and fall back to search-based
 content watch. SAP, Oracle, Sage, Frontier, TechOne and Cintra don't
 have a confirmed `sitemap_url` yet — untested, not necessarily blocked.
 
-This only works because the environment's network policy was opened to
-general outbound access on 2 Sep 2026 — before that, all external
-fetches (`WebFetch` and Bash `curl` alike) were blocked entirely by a
-blanket egress policy, not a domain-specific one. If sitemap fetches
-start failing across the board again, check that policy before assuming
-something else broke.
+This only works when the environment's network policy allows general
+outbound access — it's been toggled at least twice on 2 Sep 2026 alone
+(opened, then reverted to blocking all external `WebFetch`/`curl` again
+later the same day), so it isn't a one-time fix. When it's blocked,
+sitemap diffing, `WebFetch` currency checks on content/job listings, and
+broadened ICP job-opening searches all degrade the same way: check that
+policy first before assuming something else broke, and expect the
+digest to fall back to search-only sourcing (with the currency caveats
+that implies) until it's open again.
 
 ## Known limitations (v1)
 
+- **People moves and New job openings are scoped to the ICP, not just
+  the named account list** (`config/targets.yaml`'s `icp` block: public
+  sector, 100+ employees) — a real appointment or vacancy at a
+  ICP-fitting organisation belongs in the digest whether or not it's one
+  of the 315 named accounts. Named accounts stay the only source for
+  renewal-timing "flag to sales" actions specifically, since that needs
+  a real `contract_end_date`.
 - **People moves** is best-effort. **A personal LinkedIn API connection
   would not fix this**: LinkedIn's OAuth only grants access to the
   authenticated user's own profile data, not the ability to search or

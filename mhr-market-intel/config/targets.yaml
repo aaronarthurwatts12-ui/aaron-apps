@@ -32,6 +32,17 @@ sectors:
   - name: "Healthcare"
     notes: "Not in original brief — confirm in/out of scope"
 
+# Ideal customer profile — used to widen People Moves and New Job
+# Openings beyond the named target_accounts_source list. Any organisation
+# in one of the sectors above with at least this many employees is in
+# scope for those two sections, whether or not it appears in
+# target_accounts.csv; the named list stays the source for
+# renewal-timing/"flag to sales" actions specifically, since that needs a
+# real contract_end_date, not just an ICP fit.
+icp:
+  min_employees: 100
+  sectors: "same as sectors above"
+
 competitors:
   - name: "Zellis"
     website: "https://www.zellis.com"
