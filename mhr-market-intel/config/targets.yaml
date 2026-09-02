@@ -1,0 +1,90 @@
+# MHR Market Intelligence — target configuration
+#
+# This file drives the weekly digest (see .claude/skills/mhr-digest/SKILL.md).
+# Everything marked "TODO" or "EXAMPLE" below is a placeholder — replace it
+# with your real lists. Nothing else needs to change; the skill reads
+# straight from this file.
+
+company:
+  name: "MHR"
+  product: "iTrent (HR & Payroll SaaS)"
+
+# The four public-sector verticals in scope, per your brief. "Government"
+# is local-government priority, but central government/civil service can
+# stay in scope at lower weight — flag if you want it dropped entirely.
+sectors:
+  - name: "Education"
+    notes: "Universities, colleges, multi-academy trusts (MATs)"
+  - name: "Government"
+    notes: "Local government is priority; central gov/civil service secondary"
+  - name: "Non-profit"
+    notes: "Charities, housing associations, membership bodies"
+  - name: "Emergency Services"
+    notes: "Police, fire & rescue, ambulance trusts"
+
+# TODO (Aaron): confirm/replace. These are well-known UK public-sector
+# HR/Payroll SaaS players, included only as a starting point so the
+# pipeline has something to run against.
+competitors:
+  - name: "Zellis"
+    website: "https://www.zellis.com"
+    blog_rss: null # fill in if/when a feed is found
+  - name: "Access Group (OneAdvanced)"
+    website: "https://www.theaccessgroup.com"
+    blog_rss: null
+  - name: "Civica"
+    website: "https://www.civica.com"
+    blog_rss: null
+  - name: "IRIS Software Group"
+    website: "https://www.iris.co.uk"
+    blog_rss: null
+  - name: "SAP SuccessFactors"
+    website: "https://www.sap.com/products/hcm.html"
+    blog_rss: null
+  - name: "Oracle HCM"
+    website: "https://www.oracle.com/uk/human-capital-management/"
+    blog_rss: null
+  - name: "Workday"
+    website: "https://www.workday.com"
+    blog_rss: null
+
+# TODO (Aaron): populate with real named accounts, e.g.
+#   - name: "Birmingham City Council"
+#     sector: "Government"
+#     priority: "high"
+target_accounts:
+  - name: "EXAMPLE — replace with real target accounts"
+    sector: "Government"
+    priority: "medium"
+
+# Roles to watch for: (a) role changes / new appointments at target
+# accounts, and (b) new job openings signalling a transformation
+# programme, HRIS/payroll procurement, or budget for change.
+job_titles:
+  - "HR Director"
+  - "Director of People"
+  - "Chief People Officer"
+  - "Head of HR Transformation"
+  - "Head of People Services"
+  - "Senior Transformation Lead"
+  - "Head of Organisational Development"
+  - "Head of Payroll"
+
+# Used to keep "industry news" relevant instead of generic HR-tech noise.
+keywords:
+  include:
+    - "HR transformation"
+    - "payroll transformation"
+    - "shared services"
+    - "workforce planning"
+    - "public sector digital transformation"
+    - "HR system procurement"
+    - "ERP replacement"
+    - "self-service HR"
+  exclude:
+    - "recruitment agency"
+    - "staffing agency"
+
+delivery:
+  cadence: "weekly"
+  format: "artifact" # "artifact" (styled report) or "markdown" (plain file in reports/)
