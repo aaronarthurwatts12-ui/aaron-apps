@@ -3,8 +3,11 @@
 A weekly public-sector market intelligence digest for MHR's marketing team:
 competitor activity, content (watch + gap analysis + topic suggestions),
 legislation changes, relevant industry news, people moves, and new job
-openings across the four target verticals — Education, Local Government
-(priority), Non-profit, and Emergency Services.
+openings — plus account-specific renewal-timing flags — across seven
+public-sector verticals: Education, Local Government, Central Government,
+Emergency Services & Military, Charity, Housing Associations, and
+Healthcare (the last two weren't in the original brief; see "What's
+needed from you").
 
 Each item comes with a one-line "so what for MHR" note, and every digest
 closes with a **Suggested Actions For This Week** section — specific,
@@ -39,39 +42,48 @@ Or ask in plain language ("run the MHR market intel digest").
 
 ## What's needed from you to make it real
 
-- **Contract end dates + employee-count bands for `target_accounts.csv`.**
-  The CRM export you sent (`config/target_accounts.csv`, 1,576 rows) has
-  Account Owner, Account Name, Country and Record Type (all "Prospect")
-  — **no contract-end-date or employee-count field**, so the sales-cycle
-  timing rule you described (3-6mo / 6-12mo / 12-24mo engagement windows
-  by org size) can't compute anything yet. If Salesforce has those two
-  fields on the Account object, a re-export including them would let the
-  digest start surfacing real "start engaging by" dates instead of just
-  a static account list.
-- **A Sector/Industry field on that same export, if one exists in
-  Salesforce.** Right now `sector_guess` in the CSV is classified by
-  matching keywords in the account name (university/college/academy →
-  Education, council/borough → Local government, etc.) — it got ~75% of
-  1,576 accounts (mostly Education-heavy, matching the account mix),
-  leaving ~390 "Unclassified" and an unknown number of mis-guesses (e.g.
-  academy trusts named just "X Learning Trust" with no obvious keyword).
-  A real CRM field would replace guesswork with fact.
+- **Confirm Healthcare and Housing Associations should stay in scope.**
+  They weren't in the original 4-vertical brief but appear as real
+  Industry values in the CRM export (8 and 5 accounts respectively) —
+  currently tracked; say if either should be dropped.
+- **Confirm the ~200 accounts with only a past renewal date on file.**
+  `has_past_renewal_date_on_file` is true for accounts where every
+  renewal date in the export is already behind us — could be stale CRM
+  data (last signed date rather than next renewal) or a genuinely lapsed
+  record. These aren't currently surfaced as actions; say if there's a
+  standard contract length to project forward from instead.
 - MHR's own content hub/blog URL(s) so the content-gap analysis compares
   against what's actually been published, not an assumption.
-- Confirmation the competitor/job-title list (sourced from your
-  spreadsheet) is complete — SAP and Oracle are tagged as lower-frequency
-  "larger ERP" tracking; say if that's wrong.
+- Confirmation the competitor list is complete — Sage, Northgate,
+  Frontier, IRIS, Civica and Cintra were added because they show up as
+  the *incumbent* supplier at real target accounts (see below); TechOne
+  hasn't appeared as an incumbent anywhere in the account data yet.
 - Any preferred trade press / sources to prioritize or exclude.
 
 ## Target accounts
 
-`config/target_accounts.csv` holds the real prospect list — treat it as a
-floor, not a ceiling: the digest's competitor/legislation/industry
-findings apply to a sector even when no specific account here is named in
-the source, per your brief. `config/targets.yaml`'s `sales_cycle_timing`
-section encodes the engagement-window rule (org size → typical sales
-cycle → work backwards from contract end date) so it's ready to compute
-real dates the moment the two missing CSV fields above are filled in.
+`config/target_accounts.csv` is the primary list — 315 real accounts
+across all 7 sectors, each with Employees, current HR/Payroll
+product+supplier, and computed `contract_end_date` /
+`start_engagement_by` (per the `sales_cycle_timing` rule in
+`targets.yaml`: org size → typical sales cycle → work backwards from
+contract end date). Of the 315: **120 have a computed future
+contract_end_date**, and of those, **61 are already past their
+start-engagement-by date** (overdue — flag immediately) and **25 more
+enter their engagement window in the next 6 months**.
+
+The current-supplier field is also a live competitive-intelligence
+signal in its own right: Zellis (29 accounts), Access Group (24), Oracle
+(17), Northgate (15), Sage (15), Frontier (14), IRIS (13), SAP (12), and
+Core International (12) are the largest incumbents across these 315
+accounts.
+
+`config/target_accounts_education_prospects.csv` is a larger (1,576-row),
+Education-only, mostly-undated pool from an earlier export — kept as a
+broader top-of-funnel list for Education content/people-moves targeting,
+not for renewal-timing actions. Both lists are a floor, not a ceiling:
+the digest's competitor/legislation/industry findings apply to a sector
+even when no specific account is named in the source, per your brief.
 
 ## Known limitations (v1)
 

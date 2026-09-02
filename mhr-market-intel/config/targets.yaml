@@ -1,17 +1,20 @@
 # MHR Market Intelligence — target configuration
 #
 # This file drives the weekly digest (see .claude/skills/mhr-digest/SKILL.md).
-# Sourced from Aaron's competitor/industry/job-role spreadsheet. Still
-# outstanding: named target accounts (TODO below) — without these, people
-# moves and account-level signals stay generic rather than targeted.
+# Sourced from Aaron's competitor/industry/job-role spreadsheet plus a real
+# CRM export of target accounts with renewal dates.
 
 company:
   name: "MHR"
   product: "iTrent (HR & Payroll SaaS)"
 
-# Core sectors and their sub-segments, as supplied. "Local government"
-# includes central government/the four home nations' authorities as a
-# secondary sub-segment — flag if that split isn't what you intended.
+# Sectors as they actually appear in the CRM's Industry field (from
+# target_accounts.csv), not the original 4-vertical brief — real data
+# split "Central government" out from "Local government" as its own
+# category, and surfaced two categories not in the original brief:
+# Healthcare and Housing Associations. Flag if either should be dropped
+# rather than tracked; left in for now since real target accounts exist
+# in both.
 sectors:
   - name: "Education"
     sub_segments:
@@ -19,21 +22,15 @@ sectors:
       - "Multi-academy trusts"
       - "Further education (colleges)"
       - "Independent schools"
-  - name: "Local government"
-    sub_segments:
-      - "Central government"
-      - "English / Scottish / NI / Welsh authorities"
-  - name: "Emergency services"
-    sub_segments:
-      - "Ambulance"
-      - "Police"
-      - "Military"
-      - "Fire department"
-  - name: "Non-profit"
-    sub_segments:
-      - "Charities"
-      - "Religious institutions"
-      - "Associations and memberships"
+  - name: "Local Government"
+  - name: "Central Government"
+  - name: "Emergency Services & Military"
+  - name: "Charity"
+    notes: "Non-profit — CRM field value is 'Charity'"
+  - name: "Housing Associations"
+    notes: "Not in original brief — confirm in/out of scope"
+  - name: "Healthcare"
+    notes: "Not in original brief — confirm in/out of scope"
 
 competitors:
   - name: "Zellis"
@@ -56,25 +53,59 @@ competitors:
     website: "https://www.oracle.com/uk/human-capital-management/"
     blog_rss: null
     tier: "larger ERP — track at lower frequency unless public-sector-specific"
+  # Added from target_accounts.csv's current_supplier field — these show
+  # up as the incumbent at more target accounts than some competitors
+  # above (Sage: 15, Northgate: 15, Frontier: 14 vs. e.g. TechOne: 0 seen
+  # so far). Worth tracking at the same priority as the original list.
+  - name: "Sage"
+    website: "https://www.sage.com"
+    blog_rss: null
+    tier: "found as incumbent supplier in target account data"
+  - name: "Northgate"
+    website: null
+    blog_rss: null
+    tier: "found as incumbent supplier in target account data — legacy NGA/Northgate Arinso naming, may overlap with Zellis lineage"
+  - name: "Frontier"
+    website: null
+    blog_rss: null
+    tier: "found as incumbent supplier in target account data (Chris21/PAMS products)"
+  - name: "IRIS Software Group"
+    website: "https://www.iris.co.uk"
+    blog_rss: null
+    tier: "found as incumbent supplier in target account data"
+  - name: "Civica"
+    website: "https://www.civica.com"
+    blog_rss: null
+    tier: "found as incumbent supplier in target account data"
+  - name: "Cintra"
+    website: "https://www.cintra.co.uk"
+    blog_rss: null
+    tier: "found as incumbent supplier in target account data"
 
-# Real prospect accounts, sourced from Aaron's CRM export
-# (config/target_accounts.csv — 1,576 rows). This list is a floor, not a
-# ceiling: analysis and suggestions should not be limited to only these
-# named accounts (per Aaron's brief) — treat competitor/legislation/
-# industry findings as relevant to the sector even when no specific
-# account here is named in the source.
+# Real target accounts with known renewal dates — the primary driver of
+# account-specific "flag to sales" actions. 315 accounts across all 7
+# sectors above, with real Industry, Employees, current HR/Payroll
+# product+supplier, and renewal dates from the CRM. This list is a floor,
+# not a ceiling (per Aaron's brief): competitor/legislation/industry
+# findings are still relevant to a sector even when no specific account
+# here is named in the source.
 #
-# Sector tagging in the CSV (`sector_guess`) is heuristic — auto-classified
-# from account name keywords, not from CRM data, so ~25% are "Unclassified"
-# and some guesses will be wrong. If the Salesforce Account object has an
-# Industry/Sector picklist field, re-exporting with that field included
-# would be far more reliable than name-matching — worth doing before
-# trusting this for anything account-specific.
-#
-# `contract_end_date` and `employee_count_band` are empty pending Aaron
-# filling them in for known accounts — see `sales_cycle_timing` below for
-# why those two fields matter.
+# Columns: employee_count_band and contract_end_date/start_engagement_by
+# are pre-computed (see sales_cycle_timing below) — contract_end_date is
+# the earliest FUTURE date among the three renewal-date columns;
+# has_past_renewal_date_on_file flags rows where at least one renewal
+# date on file is already in the past (could be stale data, or a
+# multi-year product with an earlier component already renewed —
+# unconfirmed, treat as informational not actionable on its own).
 target_accounts_source: "config/target_accounts.csv"
+
+# Broader, education-only prospect list (1,576 accounts) from an earlier,
+# less-targeted CRM export. Same schema as target_accounts.csv but sparse
+# renewal-date coverage (~4%) and a heuristic sector_guess rather than a
+# real CRM Industry value. Useful as a wider top-of-funnel pool for
+# Education-sector content/people-moves targeting, but NOT the source for
+# account-specific renewal-timing actions — target_accounts.csv is.
+target_accounts_extended_source: "config/target_accounts_education_prospects.csv"
 
 # Roles to watch for: (a) role changes / new appointments at target
 # accounts, and (b) new job openings signalling a transformation

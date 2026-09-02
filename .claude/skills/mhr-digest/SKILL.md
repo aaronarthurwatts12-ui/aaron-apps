@@ -19,19 +19,32 @@ Read `mhr-market-intel/config/targets.yaml`. It defines: `sectors`
 `content_strategy` (`mhr_content_sources`, `topic_clusters`), and
 `sales_cycle_timing` (bands + the start-engagement-by rule).
 
-Also read `mhr-market-intel/config/target_accounts.csv` (the file named by
-`target_accounts_source`) — ~1,576 real prospect accounts with a
-heuristic `sector_guess`, plus (mostly empty) `contract_end_date` and
-`employee_count_band` columns. This list is a floor, not a ceiling —
-don't limit findings to only named accounts in it; a competitor or
-legislation item relevant to a sector still belongs in the digest even
-when no specific account here is named in the source.
+Also read `mhr-market-intel/config/target_accounts.csv` (named by
+`target_accounts_source`) — 315 real accounts across all 7 sectors, with
+real Industry, Employees, current HR/Payroll product+supplier, and
+pre-computed `contract_end_date`/`start_engagement_by`/
+`employee_count_band`. This is the primary source for account-specific
+actions. `config/target_accounts_education_prospects.csv` (named by
+`target_accounts_extended_source`) is a much larger (1,576-row),
+Education-only, mostly-undated pool — use it for broader Education
+content/people-moves targeting, not for renewal-timing actions.
 
-For any row with both `contract_end_date` and `employee_count_band`
-filled in, apply the `sales_cycle_timing` rule to compute a
-start-engagement-by date. Surface accounts whose start-engagement-by
-date falls within the next 4-6 weeks as a "Flag to sales" action — that
-window is the actionable one, not every account with a future renewal.
+Both lists are a floor, not a ceiling — don't limit findings to only
+named accounts in them; a competitor or legislation item relevant to a
+sector still belongs in the digest even when no specific account is
+named in the source.
+
+For every row in `target_accounts.csv` with a `start_engagement_by`
+date, surface it as a "Flag to sales" action in one of two tiers:
+- **Overdue** (`start_engagement_by` already in the past) — the
+  highest-urgency tier; list every one, sorted by soonest
+  `contract_end_date` first.
+- **Upcoming** (`start_engagement_by` within the next ~6 months) —
+  next tier down.
+Rows with `has_past_renewal_date_on_file` true but no computed
+`contract_end_date` (i.e. every renewal date on file is in the past) are
+informational only — the CRM data may be stale rather than the contract
+having lapsed; don't treat these as an action without saying so.
 
 Default lookback window: **7 days** (last 14 if a category comes back
 thin — note when you've widened it).
