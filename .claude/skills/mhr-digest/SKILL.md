@@ -66,7 +66,13 @@ needs more detail to summarize accurately.
 distinct jobs, not just link aggregation:
   1. *Content watch*: what competitors and industry sources have actually
      published recently (`"<competitor>" blog OR case study OR webinar`,
-     plus general searches per sector/topic cluster).
+     plus general searches per sector/topic cluster). Run this search for
+     every configured competitor, not just the one or two with the most
+     obvious hits — a single-competitor content watch under-represents
+     the field. Include a competitor only when a real, distinct piece of
+     content with an actual URL was found for it that run; say nothing
+     for a competitor with no fresh content rather than padding the
+     section.
   2. *Gap analysis*: for each `content_strategy.topic_clusters` entry,
      check what's been found in (1) against `content_strategy
      .mhr_content_sources` (fetch those pages/feeds if provided) —
@@ -121,10 +127,15 @@ short high-signal digest beats a long noisy one.
 ## 4. Write the digest
 
 Use `mhr-market-intel/templates/digest_template.md` as the section
-structure: Competitor Activity → Content → Legislation Watch → Industry
-News → People Moves → New Job Openings → **Suggested Actions For This
+structure: Industry News → Competitor Activity → Content → Legislation
+Watch → People Moves → New Job Openings → **Suggested Actions For This
 Week** (last section, not first). For every item give: a one-line
-summary, the source link, and a one-line "so what for MHR" note.
+summary, a real clickable link to its source (the actual article/listing/
+document URL turned up by the search or fetch — never just the bare
+domain name as text), and a one-line "so what for MHR" note. This
+applies in both delivery formats below — the artifact's prior issues
+under-did this (source domain shown as plain text, not a link); don't
+repeat that.
 
 The closing actions section is the payoff — pull it from specific items
 above, not generic advice. Cover at least these action types where the

@@ -2,6 +2,10 @@
 
 _Sectors: Education · Local Government (priority) · Non-profit · Emergency Services_
 
+## Industry News
+- {Headline/summary} — [source]({url})
+  _So what:_ {relevance to MHR's public-sector pitch}
+
 ## Competitor Activity
 ### {Competitor name}
 - {What happened} — [source]({url})
@@ -24,10 +28,6 @@ _Sectors: Education · Local Government (priority) · Non-profit · Emergency Se
 - {Change/update} — [source]({url})
   _So what:_ {compliance or budget impact for public-sector HR/payroll}
   _(If nothing material this week, say so explicitly rather than omitting the section.)_
-
-## Industry News
-- {Headline/summary} — [source]({url})
-  _So what:_ {relevance to MHR's public-sector pitch}
 
 ## People Moves
 - {Name/role change or appointment, account, sector} — [source]({url})
