@@ -1,0 +1,236 @@
+# MHR Market Intelligence — target configuration
+#
+# This file drives the weekly digest (see .claude/skills/mhr-digest/SKILL.md).
+# Sourced from Aaron's competitor/industry/job-role spreadsheet plus a real
+# CRM export of target accounts with renewal dates.
+
+company:
+  name: "MHR"
+  product: "iTrent (HR & Payroll SaaS)"
+
+# Sectors as they actually appear in the CRM's Industry field (from
+# target_accounts.csv), not the original 4-vertical brief — real data
+# split "Central government" out from "Local government" as its own
+# category, and surfaced two categories not in the original brief:
+# Healthcare and Housing Associations. Flag if either should be dropped
+# rather than tracked; left in for now since real target accounts exist
+# in both.
+sectors:
+  - name: "Education"
+    sub_segments:
+      - "Higher education"
+      - "Multi-academy trusts"
+      - "Further education (colleges)"
+      - "Independent schools"
+  - name: "Local Government"
+  - name: "Central Government"
+  - name: "Emergency Services & Military"
+  - name: "Charity"
+    notes: "Non-profit — CRM field value is 'Charity'"
+  - name: "Housing Associations"
+    notes: "Not in original brief — confirm in/out of scope"
+  - name: "Healthcare"
+    notes: "Not in original brief — confirm in/out of scope"
+
+# Ideal customer profile — used to widen People Moves and New Job
+# Openings beyond the named target_accounts_source list. Any organisation
+# in one of the sectors above with at least this many employees is in
+# scope for those two sections, whether or not it appears in
+# target_accounts.csv; the named list stays the source for
+# renewal-timing/"flag to sales" actions specifically, since that needs a
+# real contract_end_date, not just an ICP fit.
+icp:
+  min_employees: 100
+  sectors: "same as sectors above"
+
+competitors:
+  - name: "Zellis"
+    website: "https://www.zellis.com"
+    blog_rss: null # fill in if/when a feed is found
+    sitemap_url: "https://www.zellis.com/sitemap.xml" # confirmed fetchable
+    notes: >
+      Formerly Northgate / NorthgateArinso / NGA Human Resources UK &
+      Ireland — rebranded to Zellis in Jan 2019 after a Feb 2018 spinout.
+      Product lines include ResourceLink, Moorepay and Benefex. CRM
+      records showing "Northgate" as current_supplier are this company
+      under its old name, not a separate competitor — 15 target accounts
+      were reclassified from "Northgate" to "Zellis" in
+      target_accounts.csv on this basis (Aaron confirmed, 2 Sep 2026).
+      Do not confuse with "Northgate Public Services", an unrelated
+      company acquired by NEC Software Solutions (necsws.com) — that
+      Northgate never had a foothold in this dataset.
+  - name: "Unit4"
+    website: "https://www.unit4.com"
+    blog_rss: null
+    sitemap_url: null # Cloudflare JS challenge on this domain — WebSearch content watch only
+  - name: "Access Group (OneAdvanced)"
+    website: "https://www.theaccessgroup.com"
+    blog_rss: null
+    sitemap_url: "https://www.theaccessgroup.com/sitemap.xml" # confirmed fetchable
+  - name: "TechnologyOne (TechOne)"
+    website: "https://www.technologyonecorp.com"
+    blog_rss: null
+    sitemap_url: null # not yet confirmed — untested
+  - name: "SAP"
+    website: "https://www.sap.com/products/hcm.html"
+    blog_rss: null
+    sitemap_url: null
+    tier: "larger ERP — track at lower frequency unless public-sector-specific"
+  - name: "Oracle"
+    website: "https://www.oracle.com/uk/human-capital-management/"
+    blog_rss: null
+    sitemap_url: null
+    tier: "larger ERP — track at lower frequency unless public-sector-specific"
+  # Added from target_accounts.csv's current_supplier field — these show
+  # up as the incumbent at more target accounts than some competitors
+  # above (Sage: 15, Northgate: 15, Frontier: 14 vs. e.g. TechOne: 0 seen
+  # so far). Worth tracking at the same priority as the original list.
+  - name: "Sage"
+    website: "https://www.sage.com"
+    blog_rss: null
+    sitemap_url: null # not yet confirmed — untested
+    tier: "found as incumbent supplier in target account data"
+  - name: "Frontier"
+    website: null
+    blog_rss: null
+    sitemap_url: null
+    tier: "found as incumbent supplier in target account data (Chris21/PAMS products)"
+  - name: "IRIS Software Group"
+    website: "https://www.iris.co.uk"
+    blog_rss: null
+    sitemap_url: "https://www.iris.co.uk/sitemap.xml" # confirmed fetchable
+    tier: "found as incumbent supplier in target account data"
+  - name: "Civica"
+    website: "https://www.civica.com"
+    blog_rss: null
+    sitemap_url: null # Cloudflare JS challenge on this domain — WebSearch content watch only
+    tier: "found as incumbent supplier in target account data"
+  - name: "Cintra"
+    website: "https://www.cintra.co.uk"
+    blog_rss: null
+    sitemap_url: null # not yet confirmed — untested
+    tier: "found as incumbent supplier in target account data"
+
+# Real target accounts with known renewal dates — the primary driver of
+# account-specific "flag to sales" actions. 315 accounts across all 7
+# sectors above, with real Industry, Employees, current HR/Payroll
+# product+supplier, and renewal dates from the CRM. This list is a floor,
+# not a ceiling (per Aaron's brief): competitor/legislation/industry
+# findings are still relevant to a sector even when no specific account
+# here is named in the source.
+#
+# Columns: employee_count_band and contract_end_date/start_engagement_by
+# are pre-computed (see sales_cycle_timing below) — contract_end_date is
+# the earliest FUTURE date among the three renewal-date columns;
+# has_past_renewal_date_on_file flags rows where at least one renewal
+# date on file is already in the past (could be stale data, or a
+# multi-year product with an earlier component already renewed —
+# unconfirmed, treat as informational not actionable on its own).
+target_accounts_source: "config/target_accounts.csv"
+
+# Broader, education-only prospect list (1,576 accounts) from an earlier,
+# less-targeted CRM export. Same schema as target_accounts.csv but sparse
+# renewal-date coverage (~4%) and a heuristic sector_guess rather than a
+# real CRM Industry value. Useful as a wider top-of-funnel pool for
+# Education-sector content/people-moves targeting, but NOT the source for
+# account-specific renewal-timing actions — target_accounts.csv is.
+target_accounts_extended_source: "config/target_accounts_education_prospects.csv"
+
+# Roles to watch for: (a) role changes / new appointments at target
+# accounts, and (b) new job openings signalling a transformation
+# programme, HRIS/payroll procurement, or budget for change.
+job_titles:
+  - "HR Director"
+  - "Head of Digital Transformation"
+  - "Head of Payroll"
+  - "Chief Information Officer"
+  - "Head of People"
+  - "Chief Technology Officer"
+  # Broad catch-all per Aaron's brief — any transformation-flavoured title,
+  # not just the ones listed above (e.g. "Head of Transformation",
+  # "Director of Digital & Change", "Transformation Programme Lead").
+  - "* Digital Transformation (any title)"
+
+# Used to keep "industry news" relevant instead of generic HR-tech noise.
+keywords:
+  include:
+    - "HR transformation"
+    - "payroll transformation"
+    - "shared services"
+    - "workforce planning"
+    - "public sector digital transformation"
+    - "HR system procurement"
+    - "ERP replacement"
+    - "self-service HR"
+  exclude:
+    - "recruitment agency"
+    - "staffing agency"
+
+# Legislation & regulatory changes affecting HR/payroll practice in the
+# public sector. Tracked and flagged weekly as their own digest section —
+# separate from general "industry news" because these are compliance-driving,
+# not just directional.
+legislation:
+  topics:
+    - "National Minimum/Living Wage rate changes"
+    - "Employment Rights Bill / UK employment law reform"
+    - "IR35 / off-payroll working rules"
+    - "Pensions auto-enrolment threshold and contribution changes"
+    - "Public sector pay awards (NHS Agenda for Change, Local Government/NJC, Teachers' Pay, Police/Fire pay review bodies, Armed Forces Pay Review Body)"
+    - "Statutory sick pay, family leave and flexible working law changes"
+    - "Right to work / immigration compliance changes affecting payroll"
+    - "HMRC payroll reporting changes (RTI, tax codes, thresholds)"
+    - "Procurement Act 2023 and public sector software procurement rules"
+  sources:
+    - "legislation.gov.uk"
+    - "gov.uk (HMRC, DLUHC/MHCLG, DfE, Home Office, Cabinet Office)"
+    - "ACAS"
+    - "CIPD"
+    - "Local Government Association (LGA) pay circulars / NJC"
+    - "NHS Employers"
+
+# Content strategy inputs — used to map competitor/industry content against
+# what MHR has actually published, surface gaps, and suggest topics.
+content_strategy:
+  # TODO (Aaron): list MHR's existing content hubs/feeds so gap analysis can
+  # check what's already been published rather than assuming a gap exists.
+  mhr_content_sources:
+    - "EXAMPLE — e.g. https://www.mhrglobal.com/uk/en/resources/blog"
+  # Topic clusters content gets mapped against — one per sector plus a few
+  # cross-cutting themes. Extend as real topics emerge from digests.
+  topic_clusters:
+    - "Education: MAT growth & HR/payroll consolidation"
+    - "Local government: reorganisation (LGR) & shared services"
+    - "Emergency services: workforce scheduling & wellbeing"
+    - "Non-profit: lean HR teams & compliance at scale"
+    - "Cross-sector: AI in public sector HR/payroll"
+    - "Cross-sector: pay & reward compliance"
+
+# Turns "contract ends in N months" into "start engagement by" — per
+# Aaron's brief on typical sales-cycle length by org size. Only computable
+# once an account in target_accounts.csv has both contract_end_date and
+# employee_count_band filled in; until then the digest should flag the
+# account as a renewal candidate without a computed engagement-start date.
+sales_cycle_timing:
+  bands:
+    - employee_count: "100-400"
+      typical_sales_cycle_months: "3-6"
+    - employee_count: "400-1000"
+      typical_sales_cycle_months: "6-12"
+    - employee_count: "1000+"
+      typical_sales_cycle_months: "12-24"
+      notes: "sometimes longer"
+  rule: >
+    start_engagement_by = contract_end_date minus the upper end of the
+    typical_sales_cycle_months for that account's employee_count_band
+    (i.e. plan for the longer end of the range, not the shorter one).
+
+delivery:
+  cadence: "weekly"
+  formats: ["artifact", "email"] # any of: "artifact" (styled report), "markdown" (plain file in reports/), "email"
+  email:
+    recipient: "aaron.watts@mhr.co.uk"
+    subject_template: "Public Sector Weekly Digest {date}" # {date} = the digest's run date, e.g. "2 September 2026"
+    send_via: "Gmail connector (mcp__Gmail__send_message)"
+    template: "mhr-market-intel/templates/email_template.html"
+    brand: "mhr-market-intel/config/brand.yaml"
