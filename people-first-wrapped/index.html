@@ -1,0 +1,865 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>People First Wrapped</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap">
+<style>
+/* Layout: brand gradient header band, then a two-column workspace (data form | 9:16 video preview) that stacks on phones. */
+:root {
+  --mhr-red: #c8102e;
+  --corp-blue: #0a2433;
+  --light-red: #ff2a54;
+  --bright-pink: #de1aa6;
+  --electric-violet: #7a0ff9;
+  --electric-blue: #0000ff;
+  --brand-gradient: linear-gradient(90deg, #ff2a54 0%, #de1aa6 45%, #0000ff 100%);
+
+  --bg: #f4f5f8;
+  --surface: #ffffff;
+  --surface-2: #eef0f5;
+  --fg: #0a2433;
+  --fg-muted: #4b5d6b;
+  --line: #d9dee6;
+  --accent: #c8102e;
+  --accent-fg: #ffffff;
+  --focus: #7a0ff9;
+  --ok: #157a4a;
+  --warn: #a85b00;
+
+  --font-display: "Poppins", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Noto Sans", "Segoe UI", system-ui, sans-serif;
+  --radius: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #06161f; --surface: #0a2433; --surface-2: #10303f; --fg: #eef3f7; --fg-muted: #9db2c0;
+    --line: #1d4153; --accent: #ff2a54; --accent-fg: #ffffff; --focus: #a83dff; --ok: #4fd18f; --warn: #ffb054;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #06161f; --surface: #0a2433; --surface-2: #10303f; --fg: #eef3f7; --fg-muted: #9db2c0;
+  --line: #1d4153; --accent: #ff2a54; --accent-fg: #ffffff; --focus: #a83dff; --ok: #4fd18f; --warn: #ffb054;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; text-wrap: balance; }
+
+.band { background: var(--brand-gradient); color: #fff; }
+.band-inner { max-width: 1280px; margin: 0 auto; padding-block: 22px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; align-items: center; gap: 16px; }
+.logo { width: 46px; height: 46px; border-radius: 6px; background: var(--mhr-red); color: #fff; font: 600 15px var(--font-display); display: flex; align-items: flex-end; padding: 0 0 6px 5px; flex: none; box-shadow: 0 2px 8px rgba(0,0,0,.18); }
+.band h1 { font-size: clamp(20px, 3.2vw, 28px); font-weight: 500; }
+.band p { margin: 0; opacity: .9; font-size: 14px; }
+
+main { max-width: 1280px; margin: 0 auto; padding-block: 24px 48px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 440px); gap: 24px; align-items: start; }
+@media (max-width: 900px) { main { grid-template-columns: minmax(0, 1fr); } .preview-col { order: -1; } }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; display: grid; gap: 14px; min-width: 0; }
+.stack { display: grid; gap: 20px; min-width: 0; }
+.panel h2 { font-size: 17px; display: flex; align-items: center; gap: 10px; }
+.step { font: 600 12px var(--font-display); background: var(--fg); color: var(--surface); width: 24px; height: 24px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; flex: none; }
+.hint { color: var(--fg-muted); font-size: 13px; margin: 0; }
+
+label { font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--fg-muted); display: grid; gap: 6px; }
+input[type=text], input[type=number], textarea { font: 15px var(--font-body); color: var(--fg); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 9px 11px; width: 100%; min-width: 0; text-transform: none; letter-spacing: 0; }
+textarea { resize: vertical; min-height: 120px; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 13px; }
+input:focus-visible, textarea:focus-visible, button:focus-visible, input[type=range]:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.row2 { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 12px; }
+
+button { font: 600 14px var(--font-display); border-radius: 8px; border: 1px solid var(--line); background: var(--surface-2); color: var(--fg); padding: 9px 14px; cursor: pointer; }
+button:hover { border-color: var(--fg-muted); }
+button:disabled { opacity: .5; cursor: not-allowed; }
+.btn-primary { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); }
+.btn-primary:hover { filter: brightness(1.08); border-color: var(--accent); }
+.btn-big { padding: 13px 18px; font-size: 15px; width: 100%; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+.stats { display: grid; gap: 10px; }
+.stat { display: grid; grid-template-columns: 26px minmax(0, 1.4fr) minmax(0, .7fr) minmax(0, 1.2fr) auto; gap: 8px; align-items: center; background: var(--surface-2); border-radius: 8px; padding: 8px; }
+.stat .swatch { width: 26px; height: 26px; border-radius: 6px; }
+.stat input { padding: 7px 9px; font-size: 14px; }
+.stat .tools { display: flex; gap: 4px; }
+.stat .tools button { padding: 5px 8px; font-size: 13px; line-height: 1; }
+.stat-head { display: grid; grid-template-columns: 26px minmax(0, 1.4fr) minmax(0, .7fr) minmax(0, 1.2fr) 96px; gap: 8px; padding: 0 8px; font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--fg-muted); }
+@media (max-width: 620px) {
+  .stat-head { display: none; }
+  .stat { grid-template-columns: 26px minmax(0, 1fr) minmax(0, 1fr); }
+  .stat .lead { grid-column: 2 / 4; }
+  .stat .tools { grid-column: 1 / 4; justify-content: flex-end; }
+}
+
+.track { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; background: var(--surface-2); border-radius: 8px; padding: 10px 12px; font-size: 14px; }
+.track strong { font-family: var(--font-display); font-weight: 600; overflow-wrap: anywhere; }
+.file-btn { position: relative; overflow: hidden; display: inline-flex; }
+.file-btn input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.sliders { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 520px) { .sliders { grid-template-columns: minmax(0, 1fr); } }
+.sliders output { font: 600 13px var(--font-display); color: var(--fg); text-transform: none; letter-spacing: 0; font-variant-numeric: tabular-nums; }
+input[type=range] { width: 100%; accent-color: var(--accent); }
+
+.preview-col { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); }
+.stage { background: var(--corp-blue); border-radius: 14px; padding: 12px; display: flex; justify-content: center; }
+canvas#cv { display: block; width: 100%; max-width: 100%; height: auto; aspect-ratio: 9 / 16; max-height: 70vh; width: auto; border-radius: 8px; background: #0a2433; }
+.transport { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: center; }
+.time { font: 600 13px var(--font-display); font-variant-numeric: tabular-nums; color: var(--fg-muted); white-space: nowrap; }
+.progress { height: 8px; background: var(--surface-2); border-radius: 99px; overflow: hidden; }
+.progress > div { height: 100%; width: 0; background: var(--brand-gradient); transition: width .1s linear; }
+.status { font-size: 13px; color: var(--fg-muted); margin: 0; min-height: 1.5em; }
+.status.ok { color: var(--ok); }
+.status.warn { color: var(--warn); }
+video#result { width: 100%; max-height: 50vh; border-radius: 8px; background: #000; }
+@media (prefers-reduced-motion: reduce) { .progress > div { transition: none; } }
+</style>
+</head>
+<body>
+<header class="band">
+  <div class="band-inner">
+    <div class="logo" aria-hidden="true">MHR</div>
+    <div>
+      <h1>People First Wrapped</h1>
+      <p>Turn a customer's year of People First into a shareable video.</p>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="stack">
+    <section class="panel" aria-labelledby="h-customer">
+      <h2 id="h-customer"><span class="step">1</span>Customer</h2>
+      <div class="row2">
+        <label for="customer">Customer name
+          <input type="text" id="customer" value="Your organisation" autocomplete="off">
+        </label>
+        <label for="year">Year
+          <input type="number" id="year" value="2026" min="2000" max="2100">
+        </label>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="h-data">
+      <h2 id="h-data"><span class="step">2</span>Stats</h2>
+      <p class="hint">Paste one stat per line, like <code>Payrolls processed - 1,250</code>, then press Use pasted data. Or edit the rows below directly. Each stat gets its own slide, in this order.</p>
+      <textarea id="paste" spellcheck="false">Payrolls processed - 100
+Colleagues onboarded - 100
+HR queries received - 100
+HR queries resolved - 100
+Test 1 - 100
+Test 2 - 100</textarea>
+      <div class="actions">
+        <button type="button" id="parse">Use pasted data</button>
+        <span class="hint" id="parseMsg"></span>
+      </div>
+      <div class="stat-head" aria-hidden="true"><span></span><span>Lead-in line</span><span>Number</span><span>Label</span><span></span></div>
+      <div class="stats" id="stats"></div>
+      <div class="actions"><button type="button" id="addStat">+ Add stat</button></div>
+    </section>
+
+    <section class="panel" aria-labelledby="h-music">
+      <h2 id="h-music"><span class="step">3</span>Backing track</h2>
+      <div class="track">
+        <span class="file-btn"><button type="button" tabindex="-1">Choose MP3…</button><input type="file" id="audioFile" accept="audio/mpeg,audio/mp3,.mp3,audio/*" aria-label="Choose an MP3 backing track"></span>
+        <span id="trackName">No track. The video will be silent.</span>
+        <button type="button" id="clearAudio" hidden>Remove</button>
+      </div>
+      <div class="sliders">
+        <label for="audioStart">Start track at <output id="audioStartOut">0s</output>
+          <input type="range" id="audioStart" min="0" max="120" step="1" value="0">
+        </label>
+        <label for="volume">Volume <output id="volumeOut">80%</output>
+          <input type="range" id="volume" min="0" max="100" step="5" value="80">
+        </label>
+        <label for="pace">Seconds per stat <output id="paceOut">4.0s</output>
+          <input type="range" id="pace" min="2.5" max="7" step="0.5" value="4">
+        </label>
+      </div>
+      <p class="hint">The track fades out over the last few seconds. Use "Start track at" to skip a slow intro and land on the chorus.</p>
+    </section>
+
+    <section class="panel" aria-labelledby="h-export">
+      <h2 id="h-export"><span class="step">4</span>Export</h2>
+      <p class="hint">Recording runs in real time (about <span id="durHint">40</span> seconds). Keep this tab open and visible until it finishes.</p>
+      <button type="button" class="btn-primary btn-big" id="exportBtn">Create video</button>
+      <div class="progress" aria-hidden="true"><div id="exportBar"></div></div>
+      <p class="status" id="exportStatus" role="status"></p>
+      <div id="resultWrap" hidden class="stack">
+        <video id="result" controls playsinline></video>
+        <button type="button" class="btn-primary" id="saveBtn">Download video</button>
+      </div>
+    </section>
+  </div>
+
+  <aside class="preview-col stack" aria-label="Video preview">
+    <div class="stage"><canvas id="cv" width="1080" height="1920" aria-label="Video preview"></canvas></div>
+    <div class="transport">
+      <button type="button" id="playBtn">Play</button>
+      <input type="range" id="scrub" min="0" max="1000" value="0" aria-label="Preview position">
+      <span class="time" id="timeLbl">0:00 / 0:00</span>
+    </div>
+    <p class="hint">1080 × 1920 portrait, built for Stories, Reels and LinkedIn.</p>
+  </aside>
+</main>
+
+<script>
+(() => {
+  'use strict';
+  // ---------- Brand ----------
+  const C = {
+    red: '#c8102e', corp: '#0a2433', lightRed: '#ff2a54', pink: '#de1aa6', purple: '#872882',
+    lightViolet: '#a83dff', eViolet: '#7a0ff9', eBlue: '#0000ff', white: '#ffffff'
+  };
+  const DISPLAY = 'Poppins, "Segoe UI", sans-serif';
+  const BODY = '"Noto Sans", "Segoe UI", sans-serif';
+
+  // One look per stat slide; cycles if there are more stats than looks.
+  const LOOKS = [
+    { bg: C.red, fg: C.white, a: C.lightRed, b: C.pink, motif: 'waves' },
+    { bg: C.corp, fg: C.white, a: C.pink, b: C.eViolet, motif: 'rings' },
+    { bg: C.eViolet, fg: C.white, a: C.lightViolet, b: C.pink, motif: 'stripes' },
+    { bg: C.pink, fg: C.corp, a: C.lightRed, b: C.purple, motif: 'blobs' },
+    { bg: C.eBlue, fg: C.white, a: C.eViolet, b: C.lightViolet, motif: 'bars' },
+    { bg: C.lightRed, fg: C.corp, a: C.red, b: C.pink, motif: 'dots' },
+    { bg: C.purple, fg: C.white, a: C.pink, b: C.lightViolet, motif: 'squares' }
+  ];
+  const LEADS = ['This year, you clocked up', 'You welcomed', 'Your people reached out with', 'And your team resolved',
+    'Not to brag, but…', 'Look at this one.', 'You smashed through', 'And let\'s not forget'];
+
+  const W = 1080, H = 1920, TR = 0.55;
+  const cv = document.getElementById('cv');
+  const ctx = cv.getContext('2d');
+
+  // ---------- State ----------
+  const $ = id => document.getElementById(id);
+  let stats = [];
+  let audio = { buffer: null, name: '' };
+  let scenes = [], total = 0;
+
+  // ---------- Helpers ----------
+  const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+  const easeOut = t => 1 - Math.pow(1 - clamp(t), 3);
+  const easeInOut = t => { t = clamp(t); return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
+  const easeBack = t => { t = clamp(t); const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); };
+  const prog = (lt, start, len) => clamp((lt - start) / len);
+
+  function rr(x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+  }
+  function setSpacing(px) { if ('letterSpacing' in ctx) ctx.letterSpacing = px + 'px'; }
+
+  function wrap(text, font, maxW) {
+    ctx.font = font;
+    const words = String(text).split(/\s+/).filter(Boolean), lines = [];
+    let line = '';
+    for (const w of words) {
+      const test = line ? line + ' ' + w : w;
+      if (ctx.measureText(test).width > maxW && line) { lines.push(line); line = w; } else line = test;
+    }
+    if (line) lines.push(line);
+    return lines;
+  }
+  // Largest font size (<= max) where the text wraps into <= maxLines lines within maxW.
+  function fitWrap(text, weight, family, max, min, maxW, maxLines) {
+    for (let s = max; s >= min; s -= 4) {
+      const font = `${weight} ${s}px ${family}`;
+      const lines = wrap(text, font, maxW);
+      ctx.font = font;
+      if (lines.length <= maxLines && lines.every(l => ctx.measureText(l).width <= maxW)) return { font, size: s, lines };
+    }
+    const font = `${weight} ${min}px ${family}`;
+    return { font, size: min, lines: wrap(text, font, maxW) };
+  }
+  function fitSingle(text, weight, family, max, maxW) {
+    ctx.font = `${weight} ${max}px ${family}`;
+    const w = ctx.measureText(text).width;
+    const s = w > maxW ? Math.floor(max * maxW / w) : max;
+    return `${weight} ${s}px ${family}`;
+  }
+
+  // Animated text block: rises and fades in, line by line.
+  function textLines(lines, font, size, x, y, color, lt, start, opts = {}) {
+    const lh = size * (opts.lh || 1.12), stagger = opts.stagger ?? .12, align = opts.align || 'center';
+    ctx.font = font; ctx.textAlign = align; ctx.textBaseline = 'alphabetic'; ctx.fillStyle = color;
+    lines.forEach((ln, i) => {
+      const p = easeOut(prog(lt, start + i * stagger, .55));
+      if (p <= 0) return;
+      ctx.globalAlpha = p;
+      ctx.fillText(ln, x, y + i * lh + (1 - p) * 70);
+    });
+    ctx.globalAlpha = 1;
+    return lines.length * lh;
+  }
+
+  function drawLogo(cx, cy, size, variant = 'red', scale = 1) {
+    if (scale <= 0) return;
+    ctx.save(); ctx.translate(cx, cy); ctx.scale(scale, scale);
+    const s = size, x = -s / 2, y = -s / 2;
+    ctx.shadowColor = 'rgba(0,0,0,.22)'; ctx.shadowBlur = s * .12; ctx.shadowOffsetY = s * .03;
+    ctx.fillStyle = variant === 'white' ? C.white : C.red;
+    rr(x, y, s, s, s * .09); ctx.fill();
+    ctx.shadowColor = 'transparent';
+    ctx.fillStyle = variant === 'white' ? C.red : C.white;
+    ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+    ctx.font = fitSingle('MHR', 600, DISPLAY, s * .42, s * .8);
+    ctx.fillText('MHR', x + s * .1, y + s * .8);
+    ctx.restore();
+  }
+
+  function parseValue(v) {
+    const s = String(v).trim();
+    const m = s.match(/^([^\d-]*?)(-?[\d,]*\.?\d+)(.*)$/);
+    if (!m) return { prefix: '', num: null, suffix: '', raw: s };
+    const n = parseFloat(m[2].replace(/,/g, ''));
+    const dec = (m[2].split('.')[1] || '').length;
+    return { prefix: m[1], num: n, dec, suffix: m[3], raw: s };
+  }
+  function fmtValue(pv, f) {
+    if (pv.num === null) return pv.raw;
+    const n = pv.num * f;
+    return pv.prefix + n.toLocaleString('en-GB', { minimumFractionDigits: pv.dec, maximumFractionDigits: pv.dec }) + pv.suffix;
+  }
+
+  // ---------- Background motifs ----------
+  const motifs = {
+    waves(t, p) {
+      ctx.lineWidth = 9; ctx.lineCap = 'round';
+      for (let i = 0; i < 30; i++) {
+        const y0 = i * 78 - 160;
+        ctx.strokeStyle = i % 2 ? p.a : p.b; ctx.globalAlpha = .45;
+        ctx.beginPath();
+        for (let x = -20; x <= W + 20; x += 24) {
+          const y = y0 + Math.sin(x * .004 + t * 1.3 + i * .32) * 70 + Math.sin(x * .011 - t * .9) * 18;
+          x === -20 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+    },
+    rings(t, p) {
+      const cx = W * .82, cy = H * .14, span = 2400;
+      ctx.lineWidth = 56;
+      for (let k = 0; k < 16; k++) {
+        const r = (k * 150 + t * 190) % span;
+        ctx.strokeStyle = k % 2 ? p.a : p.b; ctx.globalAlpha = .55 * (1 - r / span);
+        ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+    },
+    stripes(t, p) {
+      ctx.save(); ctx.translate(W / 2, H / 2); ctx.rotate(-.38);
+      const off = (t * 140) % 440;
+      for (let i = -12; i <= 12; i++) {
+        ctx.fillStyle = i % 2 ? p.a : p.b; ctx.globalAlpha = .42;
+        ctx.fillRect(i * 220 + off - 110, -2200, 92, 4400);
+      }
+      ctx.restore(); ctx.globalAlpha = 1;
+    },
+    blobs(t, p) {
+      const bl = [[.2, .15, 420, .5, .7], [.85, .3, 360, .8, .4], [.1, .8, 480, .3, .6], [.9, .88, 400, .6, .9], [.5, .55, 300, .9, .3]];
+      bl.forEach(([x, y, r, sx, sy], i) => {
+        ctx.fillStyle = i % 2 ? p.a : p.b; ctx.globalAlpha = .6;
+        ctx.beginPath();
+        ctx.arc(W * x + Math.sin(t * sx + i) * 120, H * y + Math.cos(t * sy + i * 2) * 140, r + Math.sin(t * 1.4 + i) * 30, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      ctx.globalAlpha = 1;
+    },
+    bars(t, p) {
+      const n = 12, bw = W / n;
+      for (let i = 0; i < n; i++) {
+        const h = (.12 + .26 * Math.abs(Math.sin(t * 3.1 + i * .9) * Math.sin(t * 1.7 + i * .45))) * H;
+        const h2 = h * .55;
+        ctx.fillStyle = i % 2 ? p.a : p.b; ctx.globalAlpha = .75;
+        rr(i * bw + 10, H - h, bw - 20, h + 40, 18); ctx.fill();
+        ctx.globalAlpha = .45;
+        rr(i * bw + 10, -40, bw - 20, h2 + 40, 18); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    },
+    dots(t, p) {
+      const sp = 96, cx = W / 2, cy = H * .5;
+      ctx.fillStyle = p.a; ctx.globalAlpha = .55;
+      for (let y = sp / 2; y < H; y += sp) for (let x = sp / 2; x < W; x += sp) {
+        const d = Math.hypot(x - cx, y - cy);
+        const r = 6 + 20 * (.5 + .5 * Math.sin(d * .012 - t * 3.2));
+        ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    },
+    squares(t, p) {
+      const sq = [[0, 0, 620, 1], [W, H, 700, -1], [W, 140, 380, 1], [0, H - 200, 420, -1]];
+      sq.forEach(([x, y, s, dir], i) => {
+        ctx.save(); ctx.translate(x, y); ctx.rotate(t * .35 * dir + i);
+        ctx.fillStyle = i % 2 ? p.a : p.b; ctx.globalAlpha = .6;
+        rr(-s / 2, -s / 2, s, s, s * .09); ctx.fill();
+        ctx.restore();
+      });
+      ctx.globalAlpha = 1;
+    }
+  };
+
+  function fillBg(color) { ctx.fillStyle = color; ctx.fillRect(0, 0, W, H); }
+  function gradientBg(t) {
+    const g = ctx.createLinearGradient(-W * .2 + Math.sin(t * .6) * 200, 0, W * 1.2, H);
+    g.addColorStop(0, C.lightRed); g.addColorStop(.5, C.pink); g.addColorStop(1, C.eBlue);
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  }
+
+  function footer(fg, year, lt) {
+    const a = easeOut(prog(lt, .3, .5));
+    ctx.globalAlpha = a;
+    drawLogo(120, H - 140, 84, 'red');
+    ctx.fillStyle = fg; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+    ctx.font = `600 36px ${BODY}`;
+    ctx.fillText(`People First Wrapped ${year}`, 186, H - 140);
+    ctx.globalAlpha = 1; ctx.textBaseline = 'alphabetic';
+  }
+
+  // ---------- Scenes ----------
+  function buildScenes() {
+    const cfg = readConfig();
+    const pace = cfg.pace;
+    const list = [];
+    list.push({ kind: 'intro', dur: 4.6, fg: C.white });
+    list.push({ kind: 'lead', dur: 3.4, fg: C.white });
+    cfg.stats.forEach((s, i) => list.push({ kind: 'stat', dur: pace, fg: LOOKS[i % LOOKS.length].fg, stat: s, look: LOOKS[i % LOOKS.length], idx: i }));
+    if (cfg.stats.length) list.push({ kind: 'summary', dur: Math.max(6, 3.5 + cfg.stats.length * .35), fg: C.white });
+    list.push({ kind: 'outro', dur: 4.8, fg: C.white });
+    let t = 0;
+    list.forEach((s, i) => { s.start = t; s.i = i; t += s.dur; });
+    scenes = list; total = t;
+    sceneCfg = cfg;
+    $('durHint').textContent = Math.round(total);
+  }
+  let sceneCfg = null;
+
+  function drawScene(s, lt) {
+    const { customer, year } = sceneCfg;
+    ctx.save();
+    ctx.globalAlpha = 1; ctx.shadowColor = 'transparent'; setSpacing(0);
+    if (s.kind === 'intro') {
+      gradientBg(lt);
+      motifs.waves(lt, { a: 'rgba(255,255,255,.55)', b: 'rgba(255,255,255,.25)' });
+      drawLogo(W / 2, 420, 230, 'red', easeBack(prog(lt, .1, .6)));
+      ctx.shadowColor = 'rgba(0,0,0,.18)'; ctx.shadowBlur = 24;
+      setSpacing(6);
+      const cn = fitSingle(customer.toUpperCase(), 600, BODY, 52, W * .84);
+      textLines([customer.toUpperCase()], cn, 52, W / 2, 760, C.white, lt, .5);
+      setSpacing(0);
+      textLines([`Your ${year}`], `700 150px ${DISPLAY}`, 150, W / 2, 960, C.white, lt, .8);
+      textLines(['People First'], fitSingle('People First', 800, DISPLAY, 168, W * .9), 168, W / 2, 1140, C.white, lt, 1.0);
+      // "Wrapped" on a Corporate Blue pill
+      const p = easeBack(prog(lt, 1.3, .6));
+      if (p > 0) {
+        ctx.save(); ctx.translate(W / 2, 1320); ctx.scale(p, p); ctx.rotate(-.04);
+        ctx.shadowColor = 'transparent';
+        ctx.font = `800 140px ${DISPLAY}`;
+        const pw = ctx.measureText('Wrapped').width + 120;
+        ctx.fillStyle = C.corp; rr(-pw / 2, -120, pw, 200, 100); ctx.fill();
+        ctx.fillStyle = C.white; ctx.textAlign = 'center';
+        ctx.fillText('Wrapped', 0, 30);
+        ctx.restore();
+      }
+      ctx.shadowColor = 'transparent';
+      textLines(['Let\'s look back at your year.'], `500 44px ${BODY}`, 44, W / 2, 1620, C.white, lt, 2.0);
+    }
+    else if (s.kind === 'lead') {
+      fillBg(C.corp);
+      motifs.squares(lt, { a: C.red, b: C.eViolet });
+      const t1 = fitWrap(`${year} was a big year.`, 700, DISPLAY, 128, 60, W * .82, 3);
+      const h1 = textLines(t1.lines, t1.font, t1.size, W / 2, 760, C.white, lt, .15);
+      const t2 = fitWrap('Here\'s what you got done with People First.', 600, DISPLAY, 80, 44, W * .8, 4);
+      textLines(t2.lines, t2.font, t2.size, W / 2, 760 + h1 + 90, '#ff8aa1', lt, .9);
+    }
+    else if (s.kind === 'stat') {
+      const L = s.look, st = s.stat;
+      fillBg(L.bg);
+      motifs[L.motif](lt + s.idx * 3, L);
+      // soft vignette panel behind the text for legibility
+      const g = ctx.createRadialGradient(W / 2, H * .5, 50, W / 2, H * .5, W * .85);
+      g.addColorStop(0, L.bg); g.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.globalAlpha = .85; ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); ctx.globalAlpha = 1;
+
+      const shadow = L.fg === C.white;
+      if (shadow) { ctx.shadowColor = 'rgba(0,0,0,.25)'; ctx.shadowBlur = 28; }
+      let leadH = 0;
+      if (st.lead) {
+        const lf = fitWrap(st.lead, 600, DISPLAY, 76, 44, W * .8, 3);
+        leadH = lf.lines.length * lf.size * 1.12;
+        textLines(lf.lines, lf.font, lf.size, W / 2, 900 - leadH - 60, L.fg, lt, .15);
+      }
+      // Number: count up and pop
+      const pv = parseValue(st.value);
+      const countP = easeOut(prog(lt, .7, Math.min(1.6, s.dur * .4)));
+      const pop = easeBack(prog(lt, .6, .55));
+      const finalText = fmtValue(pv, 1);
+      const numFont = fitSingle(finalText, 800, DISPLAY, 360, W * .86);
+      if (pop > 0) {
+        ctx.save(); ctx.translate(W / 2, 1010); ctx.scale(pop, pop);
+        ctx.font = numFont; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = L.fg;
+        ctx.fillText(fmtValue(pv, pv.num === null ? 1 : countP), 0, 0);
+        ctx.restore();
+      }
+      const lab = fitWrap(st.label, 700, DISPLAY, 92, 48, W * .84, 3);
+      textLines(lab.lines, lab.font, lab.size, W / 2, 1290, L.fg, lt, 1.25);
+      ctx.shadowColor = 'transparent';
+      footer(L.fg, year, lt);
+    }
+    else if (s.kind === 'summary') {
+      fillBg(C.corp);
+      const band = ctx.createLinearGradient(0, 0, W, 0);
+      band.addColorStop(0, C.lightRed); band.addColorStop(.5, C.pink); band.addColorStop(1, C.eBlue);
+      ctx.fillStyle = band; ctx.fillRect(0, 0, W, 470);
+      motifs.waves(lt, { a: 'rgba(255,255,255,.35)', b: 'rgba(255,255,255,.18)' });
+      ctx.fillStyle = C.corp; ctx.fillRect(0, 470, W, H - 470);
+      drawLogo(150, 300, 130, 'red', easeBack(prog(lt, .05, .5)));
+      setSpacing(4);
+      const cn = fitSingle(customer.toUpperCase(), 600, BODY, 40, W - 300);
+      textLines([customer.toUpperCase()], cn, 40, 250, 275, C.white, lt, .15, { align: 'left' });
+      setSpacing(0);
+      textLines([`${year} Wrapped`], fitSingle(`${year} Wrapped`, 800, DISPLAY, 96, W - 320), 96, 250, 370, C.white, lt, .25, { align: 'left' });
+
+      const n = sceneCfg.stats.length, cols = n > 1 ? 2 : 1, rows = Math.ceil(n / cols);
+      const gx = 64, gy = 560, gap = 28, areaH = H - gy - 230;
+      const tw = (W - gx * 2 - gap * (cols - 1)) / cols;
+      const th = Math.min(330, (areaH - gap * (rows - 1)) / rows);
+      const tileCols = [C.red, C.pink, C.eViolet, C.eBlue, C.purple, C.lightRed, C.lightViolet];
+      sceneCfg.stats.forEach((st, i) => {
+        const c = i % cols, r = Math.floor(i / cols);
+        const x = gx + c * (tw + gap), y = gy + r * (th + gap);
+        const p = easeBack(prog(lt, .5 + i * .14, .5));
+        if (p <= 0) return;
+        ctx.save(); ctx.translate(x + tw / 2, y + th / 2); ctx.scale(p, p); ctx.translate(-tw / 2, -th / 2);
+        ctx.fillStyle = tileCols[i % tileCols.length]; rr(0, 0, tw, th, 28); ctx.fill();
+        const pv = parseValue(st.value);
+        const valF = fitSingle(fmtValue(pv, 1), 800, DISPLAY, Math.min(130, th * .42), tw - 64);
+        ctx.fillStyle = C.white; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+        ctx.font = valF;
+        const vs = parseFloat(valF.split(' ')[1]);
+        ctx.fillText(fmtValue(pv, pv.num === null ? 1 : easeOut(prog(lt, .6 + i * .14, 1))), 32, 32 + vs * .9);
+        const lf = fitWrap(st.label, 600, BODY, Math.min(40, th * .14), 22, tw - 64, 3);
+        ctx.font = lf.font;
+        lf.lines.forEach((ln, k) => ctx.fillText(ln, 32, 32 + vs * .9 + 26 + lf.size * (k + 1) * 1.15));
+        ctx.restore();
+      });
+      ctx.globalAlpha = easeOut(prog(lt, 1.2, .6));
+      ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.textAlign = 'center'; ctx.font = `500 34px ${BODY}`;
+      ctx.fillText('Powered by People First from MHR', W / 2, H - 120);
+      ctx.globalAlpha = 1;
+    }
+    else if (s.kind === 'outro') {
+      fillBg(C.red);
+      motifs.waves(lt, { a: C.lightRed, b: '#e01a3c' });
+      drawLogo(W / 2, 640, 300, 'white', easeBack(prog(lt, .15, .7)));
+      ctx.shadowColor = 'rgba(0,0,0,.2)'; ctx.shadowBlur = 24;
+      const t1 = fitWrap(`Thank you for a brilliant ${year}`, 700, DISPLAY, 112, 60, W * .84, 3);
+      const h1 = textLines(t1.lines, t1.font, t1.size, W / 2, 1000, C.white, lt, .6);
+      textLines([`Here's to ${Number(year) + 1}.`], `600 72px ${DISPLAY}`, 72, W / 2, 1000 + h1 + 80, C.white, lt, 1.2);
+      ctx.shadowColor = 'transparent';
+      textLines(['People First by MHR'], `500 38px ${BODY}`, 38, W / 2, H - 140, 'rgba(255,255,255,.85)', lt, 1.6);
+    }
+    ctx.restore();
+  }
+
+  function clipFor(type, e) {
+    ctx.beginPath();
+    if (type === 0) { ctx.arc(W / 2, H / 2, e * Math.hypot(W, H) / 2 * 1.02, 0, Math.PI * 2); }
+    else if (type === 1) { ctx.rect(0, H * (1 - e), W, H * e); }
+    else if (type === 2) { const edge = e * W * 2.3; ctx.moveTo(0, 0); ctx.lineTo(edge, 0); ctx.lineTo(edge - W * .7, H); ctx.lineTo(0, H); ctx.closePath(); }
+    else { const n = 6, bw = W / n; for (let i = 0; i < n; i++) { const p = easeInOut(e * 1.6 - i * .12); ctx.rect(i * bw - 1, 0, bw + 2, H * p); } }
+    ctx.clip();
+  }
+
+  function storyBar(t, fg) {
+    const n = scenes.length, pad = 40, gap = 10, bw = (W - pad * 2 - gap * (n - 1)) / n;
+    scenes.forEach((s, i) => {
+      const f = clamp((t - s.start) / s.dur);
+      ctx.fillStyle = fg === C.white ? 'rgba(255,255,255,.35)' : 'rgba(10,36,51,.3)';
+      rr(pad + i * (bw + gap), 52, bw, 8, 4); ctx.fill();
+      if (f > 0) { ctx.fillStyle = fg; rr(pad + i * (bw + gap), 52, Math.max(8, bw * f), 8, 4); ctx.fill(); }
+    });
+  }
+
+  function render(t) {
+    if (!scenes.length) return;
+    t = clamp(t, 0, total - 1e-3);
+    let i = scenes.findIndex(s => t < s.start + s.dur);
+    if (i < 0) i = scenes.length - 1;
+    const s = scenes[i], lt = t - s.start;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    if (i > 0 && lt < TR) {
+      const prev = scenes[i - 1];
+      drawScene(prev, prev.dur + lt);
+      ctx.save(); clipFor(i % 4, easeInOut(lt / TR)); drawScene(s, lt); ctx.restore();
+    } else drawScene(s, lt);
+    storyBar(t, s.fg);
+  }
+
+  // ---------- Form ----------
+  function readConfig() {
+    return {
+      customer: $('customer').value.trim() || 'Your organisation',
+      year: $('year').value.trim() || String(new Date().getFullYear()),
+      pace: parseFloat($('pace').value),
+      stats: stats.filter(s => s.label.trim() || String(s.value).trim())
+    };
+  }
+
+  function renderStats() {
+    const box = $('stats');
+    box.innerHTML = '';
+    stats.forEach((s, i) => {
+      const row = document.createElement('div');
+      row.className = 'stat';
+      const L = LOOKS[i % LOOKS.length];
+      row.innerHTML = `<span class="swatch" title="Slide colour" style="background:${L.bg}"></span>
+        <input class="lead" type="text" id="lead-${i}" aria-label="Lead-in line for stat ${i + 1}" placeholder="Lead-in (optional)">
+        <input type="text" id="val-${i}" aria-label="Number for stat ${i + 1}" placeholder="1,250" inputmode="decimal">
+        <input type="text" id="lab-${i}" aria-label="Label for stat ${i + 1}" placeholder="Payrolls processed">
+        <span class="tools">
+          <button type="button" data-act="up" aria-label="Move stat ${i + 1} up" ${i === 0 ? 'disabled' : ''}>↑</button>
+          <button type="button" data-act="down" aria-label="Move stat ${i + 1} down" ${i === stats.length - 1 ? 'disabled' : ''}>↓</button>
+          <button type="button" data-act="del" aria-label="Remove stat ${i + 1}">✕</button>
+        </span>`;
+      const [lead, val, lab] = row.querySelectorAll('input');
+      lead.value = s.lead; val.value = s.value; lab.value = s.label;
+      lead.addEventListener('input', () => { s.lead = lead.value; changed(); });
+      val.addEventListener('input', () => { s.value = val.value; changed(); });
+      lab.addEventListener('input', () => { s.label = lab.value; changed(); });
+      row.querySelector('.tools').addEventListener('click', e => {
+        const act = e.target.closest('button')?.dataset.act;
+        if (!act) return;
+        if (act === 'del') stats.splice(i, 1);
+        if (act === 'up' && i > 0) [stats[i - 1], stats[i]] = [stats[i], stats[i - 1]];
+        if (act === 'down' && i < stats.length - 1) [stats[i + 1], stats[i]] = [stats[i], stats[i + 1]];
+        renderStats(); changed();
+      });
+      box.appendChild(row);
+    });
+  }
+
+  function parsePaste(text) {
+    const out = [];
+    text.split(/\r?\n/).forEach(line => {
+      line = line.replace(/^\s*[*•\-–]\s+/, '').trim();
+      if (!line) return;
+      // "Label - 100", "Label: 100", "Label, 100", "Label<TAB>100", "Label 100"
+      let m = line.match(/^(.*?)\s*(?:\s[-–—]\s*|:|,|\t)\s*([^\s].*)$/) || line.match(/^(.*\D)\s+([£$€]?[\d.,]+\s*[%kKmM]?)$/);
+      if (m && /\d/.test(m[2])) out.push({ label: m[1].trim(), value: m[2].trim() });
+      else if (m && /\d/.test(m[1]) && !/\d/.test(m[2])) out.push({ label: m[2].trim(), value: m[1].trim() });
+    });
+    return out.map((s, i) => ({ lead: LEADS[i % LEADS.length], ...s }));
+  }
+
+  // ---------- Preview playback ----------
+  let actx = null, playing = false, clockStart = 0, offsetT = 0, src = null, gainNode = null, raf = 0, recording = false;
+  function ensureCtx() { if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)(); return actx; }
+  const now = () => actx ? actx.currentTime : performance.now() / 1000;
+  const currentT = () => playing ? now() - clockStart : offsetT;
+
+  function startAudio(fromT, dest) {
+    if (!audio.buffer) return;
+    const a = ensureCtx();
+    src = a.createBufferSource(); src.buffer = audio.buffer;
+    gainNode = a.createGain();
+    const vol = parseFloat($('volume').value) / 100;
+    const t0 = a.currentTime, fade = 3, remain = total - fromT;
+    gainNode.gain.setValueAtTime(fromT < .3 ? 0 : vol, t0);
+    if (fromT < .3) gainNode.gain.linearRampToValueAtTime(vol, t0 + .3);
+    if (remain > fade) gainNode.gain.setValueAtTime(vol, t0 + remain - fade);
+    gainNode.gain.linearRampToValueAtTime(0, t0 + remain);
+    src.connect(gainNode); gainNode.connect(a.destination);
+    if (dest) gainNode.connect(dest);
+    const off = (parseFloat($('audioStart').value) + fromT) % audio.buffer.duration;
+    src.start(t0, off);
+  }
+  function stopAudio() { try { src && src.stop(); } catch (e) { } src = null; }
+
+  async function play() {
+    if (recording) return;
+    const a = ensureCtx(); if (a.state === 'suspended') await a.resume();
+    if (offsetT >= total - .05) offsetT = 0;
+    clockStart = now() - offsetT; playing = true;
+    startAudio(offsetT);
+    $('playBtn').textContent = 'Pause';
+    loop();
+  }
+  function pause() {
+    if (!playing) return;
+    offsetT = currentT(); playing = false; stopAudio();
+    cancelAnimationFrame(raf);
+    $('playBtn').textContent = 'Play';
+  }
+  function loop() {
+    const t = currentT();
+    render(t); updateTransport(t);
+    if (t >= total) { playing = false; offsetT = total; stopAudio(); $('playBtn').textContent = 'Play'; return; }
+    raf = requestAnimationFrame(loop);
+  }
+  const fmtT = t => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`;
+  function updateTransport(t) {
+    $('scrub').value = Math.round(clamp(t / total) * 1000);
+    $('timeLbl').textContent = `${fmtT(Math.min(t, total))} / ${fmtT(total)}`;
+  }
+
+  function changed() {
+    const wasPlaying = playing;
+    if (wasPlaying) pause();
+    buildScenes();
+    offsetT = Math.min(offsetT, total);
+    render(offsetT); updateTransport(offsetT);
+    save();
+    if (wasPlaying) play();
+  }
+
+  // ---------- Export ----------
+  function pickMime() {
+    const c = ['video/mp4;codecs=avc1.640028,mp4a.40.2', 'video/mp4;codecs=avc1,mp4a.40.2', 'video/mp4',
+      'video/webm;codecs=vp9,opus', 'video/webm;codecs=vp8,opus', 'video/webm'];
+    return c.find(m => window.MediaRecorder && MediaRecorder.isTypeSupported(m)) || '';
+  }
+  let lastBlob = null, lastExt = 'webm';
+
+  async function exportVideo() {
+    if (!window.MediaRecorder || !cv.captureStream) { setStatus('This browser cannot record video. Use a recent Chrome, Edge or Safari.', 'warn'); return; }
+    pause();
+    const a = ensureCtx(); if (a.state === 'suspended') await a.resume();
+    buildScenes();
+    const stream = cv.captureStream(30);
+    let dest = null;
+    if (audio.buffer) { dest = a.createMediaStreamDestination(); dest.stream.getAudioTracks().forEach(tr => stream.addTrack(tr)); }
+    const mime = pickMime();
+    lastExt = mime.startsWith('video/mp4') ? 'mp4' : 'webm';
+    let rec;
+    try { rec = new MediaRecorder(stream, { mimeType: mime || undefined, videoBitsPerSecond: 10_000_000, audioBitsPerSecond: 192_000 }); }
+    catch (e) { setStatus('Could not start recording: ' + e.message, 'warn'); return; }
+    const chunks = [];
+    rec.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
+    rec.onstop = () => {
+      recording = false; setBusy(false);
+      lastBlob = new Blob(chunks, { type: mime || 'video/webm' });
+      const v = $('result'); if (v.src) URL.revokeObjectURL(v.src);
+      v.src = URL.createObjectURL(lastBlob);
+      $('resultWrap').hidden = false;
+      $('exportBar').style.width = '100%';
+      setStatus(`Done. ${(lastBlob.size / 1048576).toFixed(1)} MB ${lastExt.toUpperCase()}, ${Math.round(total)} seconds.`, 'ok');
+    };
+    recording = true; setBusy(true);
+    $('resultWrap').hidden = true;
+    setStatus('Recording… keep this tab visible.');
+    render(0);
+    rec.start(250);
+    const t0 = a.currentTime + .05;
+    clockStart = t0;
+    if (audio.buffer) {
+      // Start the track exactly at t0 so picture and sound stay in sync.
+      src = a.createBufferSource(); src.buffer = audio.buffer;
+      gainNode = a.createGain();
+      const vol = parseFloat($('volume').value) / 100;
+      gainNode.gain.setValueAtTime(0, t0); gainNode.gain.linearRampToValueAtTime(vol, t0 + .3);
+      gainNode.gain.setValueAtTime(vol, t0 + total - 3); gainNode.gain.linearRampToValueAtTime(0, t0 + total);
+      src.connect(gainNode); gainNode.connect(dest); gainNode.connect(a.destination);
+      src.start(t0, parseFloat($('audioStart').value) % audio.buffer.duration);
+    }
+    const tick = () => {
+      const t = Math.max(0, a.currentTime - t0);
+      render(t); updateTransport(t);
+      $('exportBar').style.width = (clamp(t / total) * 100).toFixed(1) + '%';
+      if (t >= total + .15) { stopAudio(); rec.stop(); offsetT = 0; return; }
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+  function setBusy(b) { ['exportBtn', 'playBtn', 'scrub', 'parse', 'addStat'].forEach(id => $(id).disabled = b); $('exportBtn').textContent = b ? 'Recording…' : 'Create video'; }
+  function setStatus(msg, kind = '') { const el = $('exportStatus'); el.textContent = msg; el.className = 'status' + (kind ? ' ' + kind : ''); }
+
+  // Inside a claude.ai artifact, downloads go through the viewer's save prompt; elsewhere a normal link works.
+  const downloadsP = (window.claude && typeof window.claude.use === 'function') ? window.claude.use('downloads').catch(() => null) : Promise.resolve(null);
+  async function saveVideo() {
+    if (!lastBlob) return;
+    const slug = readConfig().customer.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'customer';
+    const filename = `${slug}-people-first-wrapped-${readConfig().year}.${lastExt}`;
+    const dl = await downloadsP;
+    if (dl) {
+      try { await dl.save({ filename, data: lastBlob }); setStatus('Saved ' + filename, 'ok'); }
+      catch (e) { if (e && e.code !== 'declined') setStatus('Could not save the file (' + (e.code || 'error') + ').', 'warn'); }
+      return;
+    }
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(lastBlob); a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+  }
+
+  // ---------- Persistence (per-browser convenience) ----------
+  function save() {
+    try { localStorage.setItem('pfw', JSON.stringify({ c: $('customer').value, y: $('year').value, p: $('pace').value, stats })); } catch (e) { }
+  }
+  function load() {
+    try {
+      const d = JSON.parse(localStorage.getItem('pfw') || 'null');
+      if (!d) return false;
+      $('customer').value = d.c ?? $('customer').value; $('year').value = d.y ?? $('year').value;
+      $('pace').value = d.p ?? $('pace').value;
+      if (Array.isArray(d.stats) && d.stats.length) { stats = d.stats; return true; }
+    } catch (e) { }
+    return false;
+  }
+
+  // ---------- Wire up ----------
+  $('parse').addEventListener('click', () => {
+    const parsed = parsePaste($('paste').value);
+    if (!parsed.length) { $('parseMsg').textContent = 'No stats found. Use one "Label - number" per line.'; return; }
+    stats = parsed; renderStats(); changed();
+    $('parseMsg').textContent = `Loaded ${parsed.length} stat${parsed.length > 1 ? 's' : ''}.`;
+  });
+  $('addStat').addEventListener('click', () => { stats.push({ lead: LEADS[stats.length % LEADS.length], value: '100', label: 'New stat' }); renderStats(); changed(); });
+  ['customer', 'year'].forEach(id => $(id).addEventListener('input', changed));
+  $('pace').addEventListener('input', () => { $('paceOut').textContent = parseFloat($('pace').value).toFixed(1) + 's'; changed(); });
+  $('volume').addEventListener('input', () => { $('volumeOut').textContent = $('volume').value + '%'; if (gainNode && actx && playing) gainNode.gain.setValueAtTime(parseFloat($('volume').value) / 100, actx.currentTime); });
+  $('audioStart').addEventListener('input', () => { $('audioStartOut').textContent = $('audioStart').value + 's'; if (playing) { pause(); play(); } });
+  $('audioFile').addEventListener('change', async e => {
+    const f = e.target.files[0]; if (!f) return;
+    $('trackName').textContent = 'Loading ' + f.name + '…';
+    try {
+      const buf = await f.arrayBuffer();
+      const a = ensureCtx();
+      audio.buffer = await a.decodeAudioData(buf);
+      audio.name = f.name;
+      $('audioStart').max = Math.max(0, Math.floor(audio.buffer.duration - 5));
+      $('trackName').innerHTML = '';
+      const strong = document.createElement('strong'); strong.textContent = f.name;
+      $('trackName').append(strong, ` · ${fmtT(audio.buffer.duration)}`);
+      $('clearAudio').hidden = false;
+      if (playing) { pause(); play(); }
+    } catch (err) {
+      audio.buffer = null;
+      $('trackName').textContent = 'That file could not be read as audio. Try a different MP3.';
+    }
+    e.target.value = '';
+  });
+  $('clearAudio').addEventListener('click', () => { pause(); audio = { buffer: null, name: '' }; $('trackName').textContent = 'No track. The video will be silent.'; $('clearAudio').hidden = true; });
+  $('playBtn').addEventListener('click', () => playing ? pause() : play());
+  $('scrub').addEventListener('input', () => { const was = playing; pause(); offsetT = $('scrub').value / 1000 * total; render(offsetT); updateTransport(offsetT); if (was) play(); });
+  $('exportBtn').addEventListener('click', exportVideo);
+  $('saveBtn').addEventListener('click', saveVideo);
+
+  if (!load()) stats = parsePaste($('paste').value);
+  $('paceOut').textContent = parseFloat($('pace').value).toFixed(1) + 's';
+  renderStats();
+  buildScenes();
+  offsetT = 1.9; render(offsetT); updateTransport(offsetT);
+  // Redraw once brand fonts are ready so the canvas uses Poppins / Noto Sans.
+  Promise.all(['500', '600', '700', '800'].map(w => document.fonts.load(`${w} 64px Poppins`)).concat(
+    ['500', '600'].map(w => document.fonts.load(`${w} 64px "Noto Sans"`)))).catch(() => { }).then(() => { buildScenes(); render(offsetT); });
+})();
+</script>
+</body>
+</html>
