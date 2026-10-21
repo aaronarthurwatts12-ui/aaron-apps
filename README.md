@@ -8,7 +8,7 @@ _Coming soon._
 
 ## People First Wrapped
 
-`people-first-wrapped/index.html` is a single-file app that turns a customer's yearly People First stats into a Spotify Wrapped-style portrait video (1080×1920), using MHR branding.
+`people-first-wrapped/index.html` is a single-file app that turns a customer's yearly People First stats into a Spotify Wrapped-style portrait video (1080×1920), using MHR branding, Poppins throughout, and the People First logo (`people-first-wrapped/assets`, also embedded in the page).
 
 1. Open `people-first-wrapped/index.html` in Chrome, Edge or Safari. No build step is needed.
 2. Optionally add the customer's logo, shown next to the MHR logo on the opening slide. Paste stats, one per line (`Payrolls processed - 1,250`), or edit the rows. Each stat gets its own animated slide, then a summary slide.
