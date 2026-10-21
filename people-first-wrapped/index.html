@@ -95,6 +95,11 @@ button:disabled { opacity: .5; cursor: not-allowed; }
   .stat .tools { grid-column: 1 / 4; justify-content: flex-end; }
 }
 
+.logo-row { display: flex; gap: 14px; align-items: center; }
+.logo-info { gap: 8px; }
+.logo-thumb { width: 120px; height: 72px; flex: none; border-radius: 8px; background: #ffffff; border: 1px dashed var(--line); display: flex; align-items: center; justify-content: center; font-size: 12px; color: #4b5d6b; overflow: hidden; padding: 8px; }
+.logo-thumb img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.field-label { font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--fg-muted); }
 .track { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; background: var(--surface-2); border-radius: 8px; padding: 10px 12px; font-size: 14px; }
 .track strong { font-family: var(--font-display); font-weight: 600; overflow-wrap: anywhere; }
 .file-btn { position: relative; overflow: hidden; display: inline-flex; }
@@ -140,6 +145,17 @@ video#result { width: 100%; max-height: 50vh; border-radius: 8px; background: #0
         <label for="year">Year
           <input type="number" id="year" value="2026" min="2000" max="2100">
         </label>
+      </div>
+      <div class="logo-row">
+        <div class="logo-thumb" id="logoThumb" aria-hidden="true">No logo</div>
+        <div class="stack logo-info">
+          <span class="field-label">Customer logo</span>
+          <div class="actions">
+            <span class="file-btn"><button type="button" tabindex="-1">Choose logo…</button><input type="file" id="logoFile" accept="image/png,image/jpeg,image/svg+xml,image/webp" aria-label="Choose the customer's logo"></span>
+            <button type="button" id="clearLogo" hidden>Remove</button>
+          </div>
+          <p class="hint" id="logoMsg">Optional. Shown next to the MHR logo on the opening slide. A PNG with a transparent background works best.</p>
+        </div>
       </div>
     </section>
 
@@ -238,6 +254,7 @@ Test 2 - 100</textarea>
   const $ = id => document.getElementById(id);
   let stats = [];
   let audio = { buffer: null, name: '' };
+  let custLogo = { img: null, src: '' };
   let scenes = [], total = 0;
 
   // ---------- Helpers ----------
@@ -447,7 +464,33 @@ Test 2 - 100</textarea>
     if (s.kind === 'intro') {
       gradientBg(lt);
       motifs.waves(lt, { a: 'rgba(255,255,255,.55)', b: 'rgba(255,255,255,.25)' });
-      drawLogo(W / 2, 420, 230, 'red', easeBack(prog(lt, .1, .6)));
+      if (custLogo.img) {
+        // MHR × customer lockup: customer logo sits on a white card so any logo colour reads.
+        const img = custLogo.img, ch = 230, pad = 30;
+        const aspect = (img.naturalWidth && img.naturalHeight) ? img.naturalWidth / img.naturalHeight : 1;
+        const cw = clamp(aspect * (ch - pad * 2) + pad * 2, ch, 460);
+        const gapX = 96, groupW = 230 + gapX + cw, gx = W / 2 - groupW / 2, cy = 420;
+        drawLogo(gx + 115, cy, 230, 'red', easeBack(prog(lt, .1, .6)));
+        const xa = easeOut(prog(lt, .35, .4));
+        ctx.globalAlpha = xa; ctx.fillStyle = C.white; ctx.font = `500 72px ${DISPLAY}`;
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText('×', gx + 230 + gapX / 2, cy);
+        ctx.globalAlpha = 1; ctx.textBaseline = 'alphabetic';
+        const sc = easeBack(prog(lt, .3, .6));
+        if (sc > 0) {
+          ctx.save(); ctx.translate(gx + 230 + gapX + cw / 2, cy); ctx.scale(sc, sc);
+          ctx.shadowColor = 'rgba(0,0,0,.22)'; ctx.shadowBlur = 28; ctx.shadowOffsetY = 7;
+          ctx.fillStyle = C.white; rr(-cw / 2, -ch / 2, cw, ch, ch * .09); ctx.fill();
+          ctx.shadowColor = 'transparent';
+          const bw = cw - pad * 2, bh = ch - pad * 2;
+          const s = Math.min(bw / (aspect * bh) , 1);
+          const dw = aspect * bh * s, dh = bh * s;
+          ctx.drawImage(img, -dw / 2, -dh / 2, dw, dh);
+          ctx.restore();
+        }
+      } else {
+        drawLogo(W / 2, 420, 230, 'red', easeBack(prog(lt, .1, .6)));
+      }
       ctx.shadowColor = 'rgba(0,0,0,.18)'; ctx.shadowBlur = 24;
       setSpacing(6);
       const cn = fitSingle(customer.toUpperCase(), 600, BODY, 52, W * .84);
@@ -798,6 +841,28 @@ Test 2 - 100</textarea>
     setTimeout(() => URL.revokeObjectURL(a.href), 5000);
   }
 
+  // ---------- Customer logo ----------
+  function setLogo(src, persist = true) {
+    return new Promise(resolve => {
+      const img = new Image();
+      img.onload = () => {
+        custLogo = { img, src };
+        const th = $('logoThumb'); th.innerHTML = ''; th.appendChild(img.cloneNode());
+        $('clearLogo').hidden = false;
+        if (persist) { try { localStorage.setItem('pfw-logo', src); } catch (e) { } }
+        changed(); resolve(true);
+      };
+      img.onerror = () => { $('logoMsg').textContent = 'That file could not be read as an image. Try a PNG or JPG.'; resolve(false); };
+      img.src = src;
+    });
+  }
+  function clearLogo() {
+    custLogo = { img: null, src: '' };
+    $('logoThumb').textContent = 'No logo'; $('clearLogo').hidden = true;
+    try { localStorage.removeItem('pfw-logo'); } catch (e) { }
+    changed();
+  }
+
   // ---------- Persistence (per-browser convenience) ----------
   function save() {
     try { localStorage.setItem('pfw', JSON.stringify({ c: $('customer').value, y: $('year').value, p: $('pace').value, stats })); } catch (e) { }
@@ -845,6 +910,14 @@ Test 2 - 100</textarea>
     }
     e.target.value = '';
   });
+  $('logoFile').addEventListener('change', e => {
+    const f = e.target.files[0]; if (!f) return;
+    const r = new FileReader();
+    r.onload = () => { offsetT = 1.9; setLogo(r.result); };
+    r.readAsDataURL(f);
+    e.target.value = '';
+  });
+  $('clearLogo').addEventListener('click', clearLogo);
   $('clearAudio').addEventListener('click', () => { pause(); audio = { buffer: null, name: '' }; $('trackName').textContent = 'No track. The video will be silent.'; $('clearAudio').hidden = true; });
   $('playBtn').addEventListener('click', () => playing ? pause() : play());
   $('scrub').addEventListener('input', () => { const was = playing; pause(); offsetT = $('scrub').value / 1000 * total; render(offsetT); updateTransport(offsetT); if (was) play(); });
@@ -856,6 +929,7 @@ Test 2 - 100</textarea>
   renderStats();
   buildScenes();
   offsetT = 1.9; render(offsetT); updateTransport(offsetT);
+  try { const saved = localStorage.getItem('pfw-logo'); if (saved) setLogo(saved, false); } catch (e) { }
   // Redraw once brand fonts are ready so the canvas uses Poppins / Noto Sans.
   Promise.all(['500', '600', '700', '800'].map(w => document.fonts.load(`${w} 64px Poppins`)).concat(
     ['500', '600'].map(w => document.fonts.load(`${w} 64px "Noto Sans"`)))).catch(() => { }).then(() => { buildScenes(); render(offsetT); });
