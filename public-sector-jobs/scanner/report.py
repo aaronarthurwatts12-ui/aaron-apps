@@ -17,17 +17,25 @@ FUNC_LABEL = {"hr": "HR", "people": "People", "payroll": "Payroll", "transformat
 BLUE, INK, MUTED, LINE, BG = "#1f4e79", "#1a1a1a", "#666666", "#e3e6ea", "#f5f7fa"
 
 
+def _month(iso):
+    try:
+        return date.fromisoformat(iso[:10]).strftime("%B %Y")
+    except ValueError:
+        return ""
+
+
 def _job_row(j):
+    posted_label = f"Posted {_month(j['posted'])}" if j.get("posted") else f"First seen {_month(j.get('first_seen', date.today().isoformat()))}"
     tags = " · ".join(FUNC_LABEL.get(f, f) for f in j["functions"])
     meta = [x for x in [j.get("location"), j.get("salary")] if x]
     dates = []
     if j.get("posted"):
-        dates.append(f"Posted {j['posted']}")
+        dates.append(f"Posted {date.fromisoformat(j['posted']).strftime('%d %b %Y')}")
     if j.get("closing"):
         dates.append(f"Closes {j['closing']}")
     return f"""
     <tr><td style="padding:10px 0;border-bottom:1px solid {LINE};">
-      <a href="{escape(j['url'])}" style="font-size:15px;font-weight:600;color:{BLUE};text-decoration:none;">{escape(j['title'])}</a>
+      <span style="display:inline-block;font-size:11px;font-weight:700;color:#ffffff;background:{BLUE};padding:2px 7px;border-radius:3px;margin-right:6px;vertical-align:2px;">{escape(posted_label)}</span><a href="{escape(j['url'])}" style="font-size:15px;font-weight:600;color:{BLUE};text-decoration:none;">{escape(j['title'])}</a>
       <div style="font-size:12px;color:{MUTED};margin-top:3px;">{escape(' | '.join(meta))}</div>
       <div style="font-size:12px;color:{MUTED};margin-top:2px;">{escape(' | '.join(dates))} &nbsp;·&nbsp; {escape(j['source'])} &nbsp;·&nbsp; <span style="color:{INK};">{escape(tags)}</span></div>
     </td></tr>"""
@@ -66,21 +74,28 @@ def build(jobs, moves, period_label, notes=None):
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0">{''.join(_job_row(j) for j in orgs[org])}</table>
         </td></tr>""")
 
+    th = f'style="text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:{MUTED};padding:6px 8px 6px 0;border-bottom:2px solid {LINE};"'
+    td = f'style="font-size:13px;padding:9px 8px 9px 0;border-bottom:1px solid {LINE};vertical-align:top;"'
     if moves:
         rows = "".join(f"""
-          <tr><td style="padding:8px 0;border-bottom:1px solid {LINE};">
-            <a href="{escape(m['url'])}" style="font-size:14px;font-weight:600;color:{BLUE};text-decoration:none;">{escape(m['headline'])}</a>
-            <div style="font-size:12px;color:{MUTED};margin-top:2px;">{escape(m['published'])} · {escape(m['source'])}</div>
-            {f'<div style="font-size:12px;color:{INK};margin-top:3px;">{escape(m["summary"][:220])}</div>' if m.get('summary') else ''}
-          </td></tr>""" for m in moves)
+          <tr>
+            <td {td}><b>{escape(p['name'])}</b><div style="font-size:11px;color:{MUTED};margin-top:2px;">{escape(_month(p.get('published', '')))}</div></td>
+            <td {td}>{escape(p.get('new_role', ''))}<div style="color:{MUTED};">{escape(p.get('organisation', ''))}</div></td>
+            <td {td}>{escape(p.get('previous_role') or '-')}</td>
+            <td {td} nowrap><a href="{escape(p['linkedin'])}" style="color:#ffffff;background:#0a66c2;padding:3px 8px;border-radius:3px;text-decoration:none;font-size:12px;font-weight:600;">LinkedIn</a>
+              <div style="margin-top:6px;"><a href="{escape(p['news_url'])}" style="font-size:12px;color:{BLUE};">News ({escape(p['news_source'])})</a></div></td>
+          </tr>""" for p in moves)
+        table = f'''<table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+          <tr><th {th}>Person</th><th {th}>New role</th><th {th}>Previously</th><th {th}>Links</th></tr>{rows}</table>'''
     else:
-        rows = f'<tr><td style="padding:8px 0;font-size:13px;color:{MUTED};">No relevant senior appointments found in the news sources this period.</td></tr>'
+        table = f'<div style="padding:8px 0;font-size:13px;color:{MUTED};">No relevant senior appointments found in the news sources this period.</div>'
     body.append(f"""
         <tr><td style="padding:30px 0 4px 0;">
-          <div style="font-size:19px;font-weight:700;color:{INK};border-bottom:3px solid {BLUE};padding-bottom:6px;">People moves</div>
-          <div style="font-size:12px;color:{MUTED};margin-top:4px;">Senior HR, finance, digital and leadership appointments reported in GOV.UK and trade press news.</div>
+          <div style="font-size:19px;font-weight:700;color:{INK};border-bottom:3px solid {BLUE};padding-bottom:6px;">People moves
+            <span style="font-size:13px;font-weight:400;color:{MUTED};">&nbsp; {len(moves)} {'person' if len(moves) == 1 else 'people'}</span></div>
+          <div style="font-size:12px;color:{MUTED};margin-top:4px;">Senior HR, finance, digital and leadership appointments reported in GOV.UK and trade press news over the last 30 days. The LinkedIn button opens a LinkedIn search for the person and their new organisation; their profile is usually the top result.</div>
         </td></tr>
-        <tr><td><table role="presentation" width="100%" cellpadding="0" cellspacing="0">{rows}</table></td></tr>""")
+        <tr><td style="padding-top:6px;">{table}</td></tr>""")
 
     note_html = ""
     if notes:

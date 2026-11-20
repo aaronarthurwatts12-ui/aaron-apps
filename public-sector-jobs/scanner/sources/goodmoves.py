@@ -1,5 +1,7 @@
 """goodmoves - Scotland's main charity / third sector jobs board."""
+import re
 from bs4 import BeautifulSoup
+from ..filters import functions_for
 from ..http import get
 from ..models import Job
 
@@ -32,4 +34,17 @@ def fetch(since, max_pages=3):
                                 close_txt.replace("Closing", "").strip())
             if len(cards) < 10:
                 break
-    return list(jobs.values())
+    # The search page shows no posted date, so read it from each relevant job's own page.
+    out = []
+    for j in jobs.values():
+        if not functions_for(j.title):
+            continue
+        try:
+            m = re.search(r'"datePosted"\s*:\s*"(\d{4}-\d{2}-\d{2})', get(j.url, pause=0.5).text)
+            j.posted = m.group(1) if m else ""
+        except Exception:
+            pass
+        if j.posted and j.posted < since:
+            continue
+        out.append(j)
+    return out

@@ -10,7 +10,7 @@ import os
 from datetime import date, timedelta
 from pathlib import Path
 
-from . import classify, filters, report
+from . import classify, filters, movers, report
 from .sources import (alert_emails, goodmoves, jobs_ac_uk, madgex_rss, myjobscotland, nhs_jobs,
                       people_moves, teaching_vacancies)
 
@@ -63,7 +63,7 @@ def select(raw, cache):
         if sig in dup:  # same role re-posted across boards / member schools
             continue
         dup.add(sig)
-        rows.append({**j, "org": org, "sector": sector, "band": band,
+        rows.append({**j, "first_seen": date.today().isoformat(), "org": org, "sector": sector, "band": band,
                      "org_type": info.get("type", ""), "functions": funcs})
     return rows
 
@@ -71,7 +71,7 @@ def select(raw, cache):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--days", type=int, default=7)
-    ap.add_argument("--moves-days", type=int, default=None)
+    ap.add_argument("--moves-days", type=int, default=30)
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--raw", help="reuse a saved raw postings JSON instead of scraping")
     ap.add_argument("--ignore-seen", action="store_true", help="include roles already sent before")
@@ -89,18 +89,22 @@ def main():
     if not a.ignore_seen:
         rows = [r for r in rows if r["url"].split("?")[0] not in seen]
 
-    moves_since = (today - timedelta(days=a.moves_days or a.days)).isoformat()
+    moves_since = (today - timedelta(days=a.moves_days)).isoformat()
     try:
-        moves = [m.to_dict() for m in people_moves.fetch(moves_since)]
+        news = [m.to_dict() for m in people_moves.fetch(moves_since)]
+        if not a.ignore_seen:
+            news = [m for m in news if "move:" + m["url"] not in seen]
+        moves = movers.extract(news)
     except Exception as e:
         print(f"people_moves FAILED: {e!r}")
-        moves = []
+        news, moves = [], []
 
     label = f"{date.fromisoformat(since).strftime('%d %b')} - {today.strftime('%d %b %Y')}"
     html = report.build(rows, moves, label, notes=[
         "Size bands decide which titles are included: 100-400 staff = any HR/people/payroll/digital/finance-lead/CEO role; "
         "400-1,500 = Head of / Director / Lead level; 1,500+ = C-suite and Director level plus heads of HR, payroll, digital, procurement and transformation.",
         "Organisations under 100 staff, private companies and non-UK employers are left out.",
+        "Each role shows the month it was posted (from the job board). Where a board gives no posted date, it shows the month the scanner first saw it.",
         "Sources: NHS Jobs, jobs.ac.uk, Teaching Vacancies (DfE), myjobscotland, goodmoves, WM Jobs, Inside Housing Jobs, THE Jobs, plus Indeed / Totaljobs / LinkedIn alert emails when connected.",
     ])
     (OUT / "report.html").write_text(html)
@@ -112,6 +116,8 @@ def main():
         emailer.send(f"Public sector HR & payroll buyer roles - w/c {date.fromisoformat(since).strftime('%d %b %Y')}", html, to)
         for r in rows:
             seen[r["url"].split("?")[0]] = today.isoformat()
+        for n in news:
+            seen["move:" + n["url"]] = today.isoformat()
         cutoff = (today - timedelta(days=120)).isoformat()
         SEEN.write_text(json.dumps({k: v for k, v in seen.items() if v >= cutoff}, indent=0))
         print(f"emailed {to}")
