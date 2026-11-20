@@ -1,0 +1,857 @@
+{
+ "_note": "Organisation -> sector (NFP | Education | Gov | Other | Exclude) and size band (micro <100 | small 100-400 | medium 400-1500 | large 1500+). Edit to correct. New organisations are classified automatically by Claude and added here.",
+ "Airedale NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Ballater Surgery": {
+  "sector": "Other",
+  "band": "micro",
+  "type": "GP practice"
+ },
+ "Barts Health NHS Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "City St George’s, University of London": {
+  "sector": "Education",
+  "band": "large",
+  "type": "University"
+ },
+ "Cookham Medical Centre": {
+  "sector": "Other",
+  "band": "micro",
+  "type": "GP practice"
+ },
+ "Devon Partnership NHS Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "DoctorPA Secure LTD": {
+  "sector": "Exclude",
+  "band": "micro",
+  "type": "Private company"
+ },
+ "Dorking Healthcare Ltd.": {
+  "sector": "Exclude",
+  "band": "small",
+  "type": "Private GP provider"
+ },
+ "East Lancashire Hospitals NHS Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "East London NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Enfield Healthcare Co-operative": {
+  "sector": "Other",
+  "band": "small",
+  "type": "GP federation (co-operative)"
+ },
+ "FCMS": {
+  "sector": "NFP",
+  "band": "small",
+  "type": "Social enterprise (NHS services)"
+ },
+ "Gloucestershire Hospitals NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Greater Manchester Mental Health NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "HCRG Care Group": {
+  "sector": "Exclude",
+  "band": "large",
+  "type": "Private healthcare provider"
+ },
+ "Health Education and Improvement Wales": {
+  "sector": "Other",
+  "band": "medium",
+  "type": "NHS Wales special health authority"
+ },
+ "Herefordshire and Worcestershire Health and Care NHS Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Hertfordshire Partnership University NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "High School of Dundee": {
+  "sector": "Education",
+  "band": "small",
+  "type": "Independent school"
+ },
+ "Humber and North Yorkshire Integrated Care Board (857)": {
+  "sector": "Other",
+  "band": "medium",
+  "type": "Integrated care board"
+ },
+ "Imperial College Healthcare NHS Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Isle of Wight NHS Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Kent and Medway Mental Health NHS Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Kingston and Richmond NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Leicestershire Partnership NHS Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Lincoln Bishop University": {
+  "sector": "Education",
+  "band": "medium",
+  "type": "University"
+ },
+ "Liverpool University Hospitals NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Livewell Southwest": {
+  "sector": "NFP",
+  "band": "large",
+  "type": "Social enterprise (CIC, NHS services)"
+ },
+ "Maidstone and Tunbridge Wells NHS Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Manchester University NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Medway NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Mersey Care NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Midlands Partnership NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "NHS Blood and Transplant": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS special health authority"
+ },
+ "NHS Cheshire and Merseyside Integrated Care Board": {
+  "sector": "Other",
+  "band": "medium",
+  "type": "Integrated care board"
+ },
+ "NHS England": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS national body"
+ },
+ "NHS Greater Manchester Integrated Care": {
+  "sector": "Other",
+  "band": "medium",
+  "type": "Integrated care board"
+ },
+ "NHS Lincolnshire Integrated Care Board": {
+  "sector": "Other",
+  "band": "medium",
+  "type": "Integrated care board"
+ },
+ "NHS West Yorkshire Integrated Care Board": {
+  "sector": "Other",
+  "band": "medium",
+  "type": "Integrated care board"
+ },
+ "Newham College": {
+  "sector": "Education",
+  "band": "medium",
+  "type": "FE college"
+ },
+ "North Cumbria Integrated Care NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "North East & North Cumbria ICB": {
+  "sector": "Other",
+  "band": "medium",
+  "type": "Integrated care board"
+ },
+ "North London NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "North Tees & Hartlepool NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "North West Anglia NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "North West Surrey Integrated Care Services": {
+  "sector": "Other",
+  "band": "medium",
+  "type": "NHS community services"
+ },
+ "Northern Care Alliance NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Nottingham University Hospitals NHS Trusts": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Oxford Health NHS Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Oxford University Hospitals NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Portsmouth Hospitals University NHS Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Priory Healthcare": {
+  "sector": "Exclude",
+  "band": "large",
+  "type": "Private healthcare provider"
+ },
+ "Royal Berkshire NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Royal Holloway, University of London": {
+  "sector": "Education",
+  "band": "large",
+  "type": "University"
+ },
+ "Royal Surrey NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Sheffield Children’s NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Sirona care & health CIC": {
+  "sector": "NFP",
+  "band": "large",
+  "type": "Social enterprise (CIC, NHS services)"
+ },
+ "South Warwickshire University NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "South West Yorkshire Partnership NHS Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "St Andrews Hospice": {
+  "sector": "NFP",
+  "band": "small",
+  "type": "Hospice charity"
+ },
+ "Stirling Council": {
+  "sector": "Gov",
+  "band": "large",
+  "type": "Local authority"
+ },
+ "Sussex Partnership NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Tapping House": {
+  "sector": "NFP",
+  "band": "small",
+  "type": "Hospice charity"
+ },
+ "Tees Esk and Wear Valleys NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Thames Valley ICB": {
+  "sector": "Other",
+  "band": "medium",
+  "type": "Integrated care board"
+ },
+ "The Grove Medical Centre": {
+  "sector": "Other",
+  "band": "micro",
+  "type": "GP practice"
+ },
+ "The University of Manchester": {
+  "sector": "Education",
+  "band": "large",
+  "type": "University"
+ },
+ "UCL": {
+  "sector": "Education",
+  "band": "large",
+  "type": "University"
+ },
+ "University Hospitals Birmingham NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "University Hospitals of Derby and Burton NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "University of Bath": {
+  "sector": "Education",
+  "band": "large",
+  "type": "University"
+ },
+ "University of Cambridge": {
+  "sector": "Education",
+  "band": "large",
+  "type": "University"
+ },
+ "University of Dundee": {
+  "sector": "Education",
+  "band": "large",
+  "type": "University"
+ },
+ "University of Hertfordshire": {
+  "sector": "Education",
+  "band": "large",
+  "type": "University"
+ },
+ "University of Huddersfield": {
+  "sector": "Education",
+  "band": "large",
+  "type": "University"
+ },
+ "University of Leeds": {
+  "sector": "Education",
+  "band": "large",
+  "type": "University"
+ },
+ "University of Liverpool": {
+  "sector": "Education",
+  "band": "large",
+  "type": "University"
+ },
+ "University of Oxford": {
+  "sector": "Education",
+  "band": "large",
+  "type": "University"
+ },
+ "University of Plymouth": {
+  "sector": "Education",
+  "band": "large",
+  "type": "University"
+ },
+ "University of St Andrews": {
+  "sector": "Education",
+  "band": "large",
+  "type": "University"
+ },
+ "Xi'an Jiaotong - Liverpool University": {
+  "sector": "Exclude",
+  "band": "large",
+  "type": "Non-UK (China)"
+ },
+ "York and Scarborough Teaching Hospitals NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Queen Mary University of London": {
+  "sector": "Education",
+  "band": "large",
+  "type": "University"
+ },
+ "Agri-Food and Biosciences Institute (AFBI)": {
+  "sector": "Gov",
+  "band": "medium",
+  "type": "NI public body"
+ },
+ "South Tees Hospitals NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Public Health Wales": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS Wales trust"
+ },
+ "The Clatterbridge Cancer Centre NHSFT": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Friends of the Earth Scotland": {
+  "sector": "NFP",
+  "band": "micro",
+  "type": "Charity"
+ },
+ "Manor Estates Housing Association": {
+  "sector": "NFP",
+  "band": "micro",
+  "type": "Housing association"
+ },
+ "Ps & Gs Church": {
+  "sector": "NFP",
+  "band": "micro",
+  "type": "Church"
+ },
+ "Aberdeenshire Voluntary Action": {
+  "sector": "NFP",
+  "band": "micro",
+  "type": "Charity (third sector interface)"
+ },
+ "The Neuro Therapy Place": {
+  "sector": "NFP",
+  "band": "micro",
+  "type": "Charity"
+ },
+ "Scottish Autism": {
+  "sector": "NFP",
+  "band": "medium",
+  "type": "Charity"
+ },
+ "Risk Management Authority": {
+  "sector": "Gov",
+  "band": "micro",
+  "type": "Scottish public body"
+ },
+ "Badenoch and Strathspey Community Connections": {
+  "sector": "NFP",
+  "band": "micro",
+  "type": "Charity"
+ },
+ "JustRight Scotland": {
+  "sector": "NFP",
+  "band": "micro",
+  "type": "Charity"
+ },
+ "Garvald Edinburgh": {
+  "sector": "NFP",
+  "band": "small",
+  "type": "Charity"
+ },
+ "Waverley Housing": {
+  "sector": "NFP",
+  "band": "micro",
+  "type": "Housing association"
+ },
+ "Cornerstone": {
+  "sector": "NFP",
+  "band": "medium",
+  "type": "Charity (social care)"
+ },
+ "Crawshaw Academy": {
+  "sector": "Education",
+  "band": "small",
+  "type": "Secondary academy"
+ },
+ "Leigh Trust": {
+  "sector": "Education",
+  "band": "large",
+  "type": "Multi-academy trust"
+ },
+ "Wave Multi Academy Trust": {
+  "sector": "Education",
+  "band": "medium",
+  "type": "Multi-academy trust"
+ },
+ "Prospere Learning Trust": {
+  "sector": "Education",
+  "band": "medium",
+  "type": "Multi-academy trust"
+ },
+ "Spark Education Trust": {
+  "sector": "Education",
+  "band": "small",
+  "type": "Multi-academy trust"
+ },
+ "Pathway Trust": {
+  "sector": "Education",
+  "band": "small",
+  "type": "Multi-academy trust"
+ },
+ "Connect Alliance Trust": {
+  "sector": "Education",
+  "band": "small",
+  "type": "Multi-academy trust"
+ },
+ "Waterwells Primary Academy": {
+  "sector": "Education",
+  "band": "micro",
+  "type": "Primary academy"
+ },
+ "George Mitchell School": {
+  "sector": "Education",
+  "band": "small",
+  "type": "All-through school"
+ },
+ "Plume School": {
+  "sector": "Education",
+  "band": "small",
+  "type": "Secondary academy"
+ },
+ "The Gorse Academies Trust": {
+  "sector": "Education",
+  "band": "large",
+  "type": "Multi-academy trust"
+ },
+ "Windrush Thamesmead Primary School": {
+  "sector": "Education",
+  "band": "small",
+  "type": "Multi-academy trust (posted via member school)",
+  "canonical": "Windrush Alliance (academy trust)"
+ },
+ "Windrush Charlton Primary School": {
+  "sector": "Education",
+  "band": "small",
+  "type": "Multi-academy trust (posted via member school)",
+  "canonical": "Windrush Alliance (academy trust)"
+ },
+ "Hawksmoor School": {
+  "sector": "Education",
+  "band": "small",
+  "type": "Multi-academy trust (posted via member school)",
+  "canonical": "Windrush Alliance (academy trust)"
+ },
+ "Cambrian Learning Trust": {
+  "sector": "Education",
+  "band": "medium",
+  "type": "Multi-academy trust"
+ },
+ "Yavneh College": {
+  "sector": "Education",
+  "band": "small",
+  "type": "Secondary school"
+ },
+ "Impact Education Multi Academy Trust": {
+  "sector": "Education",
+  "band": "medium",
+  "type": "Multi-academy trust"
+ },
+ "The Pinnacle Learning Trust": {
+  "sector": "Education",
+  "band": "medium",
+  "type": "Multi-academy trust"
+ },
+ "Franklin Sixth Form College": {
+  "sector": "Education",
+  "band": "small",
+  "type": "Sixth form college"
+ },
+ "Evolution Academy Trust": {
+  "sector": "Education",
+  "band": "medium",
+  "type": "Multi-academy trust"
+ },
+ "Voyage Education Partnership": {
+  "sector": "Education",
+  "band": "medium",
+  "type": "Multi-academy trust"
+ },
+ "Barking Abbey School, A Specialist Sports and Humanities College": {
+  "sector": "Education",
+  "band": "small",
+  "type": "Secondary school"
+ },
+ "Discovery Educational Trust": {
+  "sector": "Education",
+  "band": "medium",
+  "type": "Multi-academy trust"
+ },
+ "The Laetare Catholic Multi Academy Trust": {
+  "sector": "Education",
+  "band": "medium",
+  "type": "Multi-academy trust"
+ },
+ "Great Learners Trust": {
+  "sector": "Education",
+  "band": "small",
+  "type": "Multi-academy trust"
+ },
+ "Stratford-on-Avon District Council": {
+  "sector": "Gov",
+  "band": "medium",
+  "type": "District council"
+ },
+ "Sandwell Childrens Trust": {
+  "sector": "Gov",
+  "band": "medium",
+  "type": "Council-owned children's services trust"
+ },
+ "Hales Valley Trust": {
+  "sector": "Education",
+  "band": "small",
+  "type": "Multi-academy trust"
+ },
+ "Sandwell Metropolitan Borough Council": {
+  "sector": "Gov",
+  "band": "large",
+  "type": "Metropolitan borough council"
+ },
+ "Hereford & Worcester Fire and Rescue Service": {
+  "sector": "Gov",
+  "band": "medium",
+  "type": "Fire and rescue service"
+ },
+ "West Midlands Combined Authority (WMCA)": {
+  "sector": "Gov",
+  "band": "medium",
+  "type": "Combined authority"
+ },
+ "MTVH": {
+  "sector": "NFP",
+  "band": "large",
+  "type": "Housing association (Metropolitan Thames Valley)"
+ },
+ "Glebe Housing Association": {
+  "sector": "NFP",
+  "band": "micro",
+  "type": "Housing association"
+ },
+ "Oaklee": {
+  "sector": "Exclude",
+  "band": "small",
+  "type": "Non-UK (Republic of Ireland housing association)"
+ },
+ "Housing Ombudsman Service": {
+  "sector": "Gov",
+  "band": "small",
+  "type": "Non-departmental public body"
+ },
+ "London Borough of Lewisham": {
+  "sector": "Gov",
+  "band": "large",
+  "type": "London borough council"
+ },
+ "Clanmil Housing": {
+  "sector": "NFP",
+  "band": "small",
+  "type": "Housing association (NI)"
+ },
+ "AUSTRALIAN NATIONAL UNIVERSITY (ANU)": {
+  "sector": "Exclude",
+  "band": "large",
+  "type": "Non-UK (Australia)"
+ },
+ "Academy Transformation Trust": {
+  "sector": "Education",
+  "band": "large",
+  "type": "Multi-academy trust"
+ },
+ "Birchwood High School": {
+  "sector": "Education",
+  "band": "small",
+  "type": "Secondary school"
+ },
+ "Birmingham Women's and Children's NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Bristol NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Calderdale and Huddersfield NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Caludon Castle School": {
+  "sector": "Education",
+  "band": "small",
+  "type": "Secondary school"
+ },
+ "Caludon Castle School in Coventry": {
+  "sector": "Education",
+  "band": "small",
+  "type": "Secondary school",
+  "canonical": "Caludon Castle School"
+ },
+ "Chesterfield Royal Hospital NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Chorus Education Trust": {
+  "sector": "Education",
+  "band": "medium",
+  "type": "Multi-academy trust"
+ },
+ "Dudley College of Technology": {
+  "sector": "Education",
+  "band": "medium",
+  "type": "FE college"
+ },
+ "Gloucestershire Health and Care NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Herefordshire Council": {
+  "sector": "Gov",
+  "band": "large",
+  "type": "Unitary council"
+ },
+ "InHealth Group": {
+  "sector": "Exclude",
+  "band": "large",
+  "type": "Private healthcare provider"
+ },
+ "Integrated Care 24 Ltd": {
+  "sector": "NFP",
+  "band": "large",
+  "type": "Social enterprise (NHS urgent care)"
+ },
+ "Invictus Education Trust": {
+  "sector": "Education",
+  "band": "medium",
+  "type": "Multi-academy trust"
+ },
+ "Kings Priory School": {
+  "sector": "Education",
+  "band": "small",
+  "type": "All-through academy"
+ },
+ "Kinver High School and Sixth Form": {
+  "sector": "Education",
+  "band": "micro",
+  "type": "Secondary school"
+ },
+ "Mersey and West Lancashire Teaching Hospitals NHS Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Mid and South Essex NHS Foundation Trust": {
+  "sector": "Other",
+  "band": "large",
+  "type": "NHS trust"
+ },
+ "Myeloma UK": {
+  "sector": "NFP",
+  "band": "micro",
+  "type": "Charity"
+ },
+ "NHS Cornwall and Isles of Scilly Integrated Care Board": {
+  "sector": "Other",
+  "band": "medium",
+  "type": "Integrated care board"
+ },
+ "New College Durham": {
+  "sector": "Education",
+  "band": "medium",
+  "type": "FE college"
+ },
+ "Nuneaton & Bedworth Borough Council": {
+  "sector": "Gov",
+  "band": "medium",
+  "type": "District council"
+ },
+ "One Stop Healthcare": {
+  "sector": "Exclude",
+  "band": "micro",
+  "type": "Private company"
+ },
+ "Outwood Academy Haydock": {
+  "sector": "Education",
+  "band": "small",
+  "type": "Secondary academy (Outwood Grange trust)"
+ },
+ "Paddock School": {
+  "sector": "Education",
+  "band": "micro",
+  "type": "Special school"
+ },
+ "Sandbach High School and Sixth Form College": {
+  "sector": "Education",
+  "band": "small",
+  "type": "Secondary school"
+ },
+ "South West London Integrated Care Board": {
+  "sector": "Other",
+  "band": "medium",
+  "type": "Integrated care board"
+ },
+ "Spectrum Community Health CIC": {
+  "sector": "NFP",
+  "band": "medium",
+  "type": "Social enterprise (CIC, NHS services)"
+ },
+ "Spina Bifida Hydrocephalus Scotland": {
+  "sector": "NFP",
+  "band": "micro",
+  "type": "Charity"
+ },
+ "The Adam Practice": {
+  "sector": "Other",
+  "band": "micro",
+  "type": "GP practice"
+ },
+ "The Chelmsford Learning Partnership": {
+  "sector": "Education",
+  "band": "medium",
+  "type": "Multi-academy trust"
+ },
+ "Waltham Forest Federated GP Network": {
+  "sector": "Other",
+  "band": "micro",
+  "type": "GP federation"
+ }
+}

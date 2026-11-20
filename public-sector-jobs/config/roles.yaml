@@ -1,0 +1,41 @@
+# Which job titles count as "in the buying cycle" for HR & payroll software.
+# A job is kept when its title matches a FUNCTION, is allowed for the
+# organisation's SIZE BAND, and isn't caught by an exclude rule.
+# All patterns are case-insensitive regular expressions on the job title.
+# Edit freely - this file is the main thing to tune.
+
+functions:
+  hr:             ['\bHR\b', 'human resources?', '\bHRIS\b', '\bHRBP\b', 'personnel', 'organisational development', '\bOD\b', '\breward\b', 'director of workforce', 'workforce (director|planning|systems|information|and od|& od)', 'talent (director|lead|manager|acquisition (lead|manager))', 'employee relations']
+  people:         ['(?<!young )(?<!older )people (director|lead|manager|partner|business partner|operations|services|systems|analytics|and culture|& culture|& od|and od|& organisational|experience|strategy|officer|advisor|adviser|transformation|change|management)', '(director|head|chief|vp) of people\b', 'chief people']
+  payroll:        ['payroll']
+  transformation: ['transformation', 'modernisation', 'change (director|lead|manager)', 'director of change', 'head of change']
+  digital_it:     ['(head|director|chief|manager|lead) of (it|ict|digital|technology|information|systems)\b', '\b(it|ict|digital|technology|information) (director|manager|lead)\b', 'head of (it|ict|digital|technology)', '\bCTO\b', '\bCIO\b', '\bCDO\b', '\bCDIO\b', 'chief (information|technology|digital)', 'digital (strategy|services)']
+  finance:        ['finance director', 'director of finance', 'chief financ', '\bCFO\b', '\bCFOO\b', 'head of finance', 'finance and operations (director|officer)', 'chief operating', '\bCOO\b', 'director of (resources|corporate services|business services|operations and finance)', 'corporate services director', 'deputy chief financ', 'bursar', 'business director']
+  procurement:    ['procurement', 'commercial (director|lead|manager)', 'head of commercial', 'director of commercial', 'purchasing']
+  leadership:     ['\bCEO\b', 'chief executive', 'managing director', 'vice[- ]chancellor', 'director general', 'permanent secretary', 'principal and chief']
+
+# Which functions count at each size band.
+band_functions:
+  small:  [hr, people, payroll, transformation, digital_it, finance, leadership]
+  medium: [hr, people, payroll, transformation, digital_it, finance, procurement, leadership]
+  large:  [hr, people, payroll, transformation, digital_it, finance, procurement, leadership]
+
+seniority:
+  # 100-400 employees: anything in the functions above (Advisor upwards).
+  small:
+    require: []
+    exclude: ['\bassistant\b(?! director)', 'administrator', '\badmin\b', 'support officer', 'co-?ordinator', 'apprentice']
+  # 400-1500 employees: Head of / Director / Chief / Lead / Manager-of-function and up.
+  medium:
+    require: ['\bhead\b', 'director', '\bchief\b', '\blead\b', '\bCEO\b', '\bCFO\b', '\bCFOO\b', '\bCTO\b', '\bCIO\b', '\bCOO\b', '\bCDO\b', 'controller', 'vice[- ]chancellor', 'senior manager', 'bursar', '(hr|human resources|people|payroll|it|ict|digital) manager']
+    exclude: ['\bassistant\b(?! director)', 'support officer']
+  # 1500+ employees: C-suite and Director level only, plus heads of the core
+  # buying functions (HR/people/payroll/digital/procurement/transformation).
+  large:
+    require: ['director', '\bchief\b', '\bCEO\b', '\bCFO\b', '\bCTO\b', '\bCIO\b', '\bCOO\b', '\bCDO\b', 'vice[- ]chancellor', 'permanent secretary', 'head of (procurement|commercial|transformation|change|hr\b|human resources|people|payroll|digital|it\b|ict|technology|workforce|reward|od\b|organisational)']
+    exclude: ['pro[- ]vice[- ]chancellor', 'clinical group', 'faculty', 'security officer']
+
+# Applied to every title, every band.
+global_exclude: ['teacher', 'lecturer', 'tutor', 'teaching', 'technician', 'trainer\b', 'nurse', 'nursing', 'midwi', 'clinical', 'pharmac', 'matron', 'maternity(?! cover)', 'cancer', 'research', 'fellow\b', 'student', 'apprentice', 'trainee', 'graduate', 'intern\b', 'design (and |& )?technology', 'food technology', '\bPA\b', 'personal assistant', 'executive assistant', 'business support', 'secretary(?! general)', 'non[- ]executive', 'trustee', 'board (member|of directors)', 'lay director', 'volunteer', 'medical director', 'music director', 'course director', 'programme director', 'director of studies', 'deputy head ?teacher', 'head of (department|year|house|faculty|school of)', 'subject lead', 'engineer', 'helpdesk', 'service desk', 'first aid', '^head of (technology|computing|ict)$']
+
+min_band: small

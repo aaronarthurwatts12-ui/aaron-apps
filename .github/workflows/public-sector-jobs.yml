@@ -1,0 +1,39 @@
+name: Weekly public sector buyer roles
+
+on:
+  workflow_dispatch: {}
+  # Turned off until the test report is approved. To switch on, uncomment:
+  # schedule:
+  #   - cron: "17 6 * * 1"   # Mondays ~06:17 UTC
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: public-sector-jobs
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Scan, classify and email
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          REPORT_TO: ${{ secrets.REPORT_TO }}
+          ALERTS_IMAP_USER: ${{ secrets.ALERTS_IMAP_USER }}
+          ALERTS_IMAP_PASSWORD: ${{ secrets.ALERTS_IMAP_PASSWORD }}
+        run: python -m scanner.main
+      - name: Save seen-jobs and organisation cache
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add data/
+          git diff --cached --quiet || git commit -m "Update seen jobs and organisation cache"
+          git push
