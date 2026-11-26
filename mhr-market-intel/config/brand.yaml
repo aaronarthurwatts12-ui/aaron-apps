@@ -1,0 +1,32 @@
+# MHR brand tokens — extracted from the MHR Brand Guide Sheet Aaron supplied.
+# Used to "loosely brand" the weekly digest email. Not a full brand system.
+#
+# No logo image: Aaron asked for the real MHR logo (a red rounded-square
+# mark with a white "MHR" wordmark) rather than a recreated approximation,
+# and pasted-image attachments don't reach this environment as a usable
+# file (only proper file uploads do — see mhr-market-intel/README.md).
+# Rather than ship an approximation, the header carries the brand through
+# text only: a small "MHR" eyebrow label above the "Public Sector Pulse"
+# title, on the MHR Red banner. Revisit once the real logo file is
+# supplied as a genuine upload.
+
+colors:
+  mhr_red: "#c8102e"        # primary brand color — banners, "so what" accents
+  corporate_blue: "#0a2433" # dark navy — headings, table headers, actions box
+  light_red: "#ff2a54"
+  bright_pink: "#de1aa6"
+  bright_purple: "#872882"
+  light_violet: "#a83dff"
+  electric_violet: "#7a0ff9"
+  electric_blue: "#0000ff"
+  # The brand sheet uses two gradient bars: Light Red -> Bright Pink ->
+  # Electric Blue, and Bright Pink -> Light Violet -> Electric Violet.
+  # Email clients render CSS gradients unreliably, so these are recreated
+  # as 3 solid-color table cells side by side (see email_template.html).
+
+fonts:
+  primary: "Poppins"      # headings — loaded via Google Fonts link, falls
+                           # back to Arial/Helvetica in clients that strip it
+  secondary: "Noto Sans"  # body text — same fallback approach
+
+source: "MHR Brand Guide Sheet (PDF supplied by Aaron, 2 Sep 2026)"
